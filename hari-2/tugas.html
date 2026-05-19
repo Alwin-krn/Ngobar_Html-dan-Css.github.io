@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tugas Hari 2 – CSS Dasar | Workshop</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070d1a;--card:#0f1c2e;--card2:#152438;--accent:#3b82f6;--a2:#60a5fa;--purple:#8b5cf6;--green:#22c55e;--text:#e2e8f0;--muted:#94a3b8;--border:rgba(59,130,246,.18)}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{background:rgba(7,13,26,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.tlogo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px}
+.tlogo-i{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;font-weight:900}
+.tlogo span{color:var(--a2)}
+.back-btn{display:flex;align-items:center;gap:7px;padding:7px 18px;border-radius:50px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--a2);font-size:13px;font-weight:700;text-decoration:none;transition:all .25s}
+.back-btn:hover{background:rgba(59,130,246,.2);transform:translateX(-3px)}
+.hero{padding:60px 48px 40px;max-width:1100px;margin:0 auto}
+.hero-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 18px;border-radius:50px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);font-size:12px;font-weight:700;color:var(--a2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(30px,4vw,52px);font-weight:800;line-height:1.1;margin-bottom:14px}
+.hero h1 span{background:linear-gradient(90deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:16px;color:var(--muted);max-width:680px;line-height:1.7;margin-bottom:24px}
+.hero-stats{display:flex;gap:20px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 22px;display:flex;align-items:center;gap:12px}
+.stat-ico{font-size:24px}
+.stat-info strong{display:block;font-size:18px;font-weight:800}
+.stat-info span{font-size:12px;color:var(--muted)}
+.content{max-width:1100px;margin:0 auto;padding:0 48px 80px;display:flex;flex-direction:column;gap:28px}
+.section{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:20px;overflow:hidden}
+.sec-head{padding:20px 28px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.sec-head h2{font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px}
+.lbadge{padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.easy{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.med{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.hard{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.sec-body{padding:24px 28px}
+.task-list{display:flex;flex-direction:column;gap:14px}
+.task{background:var(--card2);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:18px 22px;display:flex;gap:16px;align-items:flex-start;transition:all .3s;cursor:pointer}
+.task:hover{border-color:var(--accent);transform:translateX(4px)}
+.task-num{min-width:36px;height:36px;border-radius:50%;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--a2);flex-shrink:0}
+.task-body h4{font-size:15px;font-weight:700;margin-bottom:5px}
+.task-body p{font-size:13.5px;color:var(--muted);line-height:1.65}
+.task-body .tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.tag-sm{padding:3px 10px;border-radius:5px;font-size:11px;font-weight:600;font-family:'Fira Code',monospace;background:rgba(59,130,246,.1);color:var(--a2);border:1px solid rgba(59,130,246,.2)}
+.tag-sm.pur{background:rgba(139,92,246,.1);color:#c084fc;border-color:rgba(139,92,246,.2)}
+.tag-sm.grn{background:rgba(34,197,94,.1);color:#4ade80;border-color:rgba(34,197,94,.2)}
+.code-tmpl{background:#040912;border:1px solid rgba(59,130,246,.18);border-radius:12px;padding:18px 22px;font-family:'Fira Code',monospace;font-size:13px;line-height:1.8;margin-top:14px;position:relative}
+.code-tmpl::before{content:'📄 Template Kode';position:absolute;top:-10px;left:16px;background:var(--card2);padding:0 8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:var(--a2)}
+.p{color:#60a5fa}.v{color:#4ade80}.s{color:#c084fc}.cm{color:#3b4f60;font-style:italic}.t{color:#fb923c}.u{color:#f59e0b}
+.req-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.req{display:flex;align-items:flex-start;gap:10px;font-size:13.5px}
+.req::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.checklist{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.ck{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:14px}
+.ck input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;margin-top:1px;cursor:pointer}
+.ck label{cursor:pointer;line-height:1.5}
+.tips{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.25);border-radius:14px;padding:18px 22px;margin-top:16px}
+.tips h4{font-size:14px;font-weight:700;color:#60a5fa;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.tips ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.tips ul li{font-size:13.5px;color:var(--muted);display:flex;gap:8px}
+.tips ul li::before{content:'💡';flex-shrink:0}
+/* PREVIEW BOX */
+.preview{border:2px dashed rgba(59,130,246,.3);border-radius:14px;padding:24px;margin-top:16px;background:rgba(59,130,246,.03)}
+.preview-label{font-size:11px;font-weight:700;color:var(--a2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.preview-card{background:white;border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px;max-width:360px}
+.preview-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6)}
+.preview-text h4{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.preview-text p{font-size:12px;color:#64748b}
+.preview-btn{display:inline-block;margin-top:12px;padding:8px 20px;background:#3b82f6;color:white;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .3s}
+.preview-btn:hover{background:#2563eb;transform:translateY(-2px)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="tlogo"><div class="tlogo-i">C</div><span>CSS</span>&nbsp;Dasar</div>
+  <a href="index.html" class="back-btn">← Kembali ke Presentasi</a>
+</div>
+
+<div class="hero">
+  <div class="hero-chip">📝 Lembar Tugas · Hari 2</div>
+  <h1>Tugas Praktik <span>CSS Dasar</span></h1>
+  <p>Ambil file index.html dari Hari 1 dan tambahkan style CSS! Buat tampilan menjadi cantik, modern, dan profesional hanya dengan CSS.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-ico">📋</div><div class="stat-info"><strong>5</strong><span>Total Tugas</span></div></div>
+    <div class="stat"><div class="stat-ico">⏱️</div><div class="stat-info"><strong>3–4 Jam</strong><span>Estimasi Waktu</span></div></div>
+    <div class="stat"><div class="stat-ico">🎨</div><div class="stat-info"><strong>CSS3</strong><span>Teknologi</span></div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- TUGAS 1 -->
+  <div class="section">
+    <div class="sec-head">
+      <h2>🔗 Tugas 1 — Setup CSS</h2>
+      <span class="lbadge easy">⭐ Mudah</span>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:15px;color:var(--muted);margin-bottom:14px">Buat file <strong>style.css</strong> dan hubungkan ke semua halaman HTML Anda.</p>
+      <div class="req-list">
+        <div class="req">Buat file baru bernama <strong>style.css</strong> di folder yang sama dengan index.html</div>
+        <div class="req">Tambahkan <code style="font-family:'Fira Code',monospace;font-size:12px;background:rgba(255,255,255,.07);padding:2px 6px;border-radius:4px">&lt;link rel="stylesheet" href="style.css"&gt;</code> di dalam &lt;head&gt; setiap file HTML</div>
+        <div class="req">Reset default browser: hilangkan margin/padding bawaan dengan <code style="font-family:'Fira Code',monospace;font-size:12px;background:rgba(255,255,255,.07);padding:2px 6px;border-radius:4px">* { box-sizing: border-box; margin: 0; padding: 0; }</code></div>
+        <div class="req">Import Google Fonts di CSS: gunakan font Inter atau Poppins</div>
+      </div>
+      <div class="code-tmpl">
+        <span class="cm">/* style.css — Mulai dari sini */</span><br><br>
+        <span class="cm">/* 1. Import font dari Google Fonts */</span><br>
+        <span class="t">@import</span> <span class="v">url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap')</span>;<br><br>
+        <span class="cm">/* 2. Reset global */</span><br>
+        <span class="s">*, *::before, *::after</span> { <span class="p">box-sizing</span>: <span class="v">border-box</span>; <span class="p">margin</span>: <span class="u">0</span>; <span class="p">padding</span>: <span class="u">0</span>; }<br><br>
+        <span class="cm">/* 3. Base typography */</span><br>
+        <span class="s">body</span> {<br>
+        &nbsp;&nbsp;<span class="p">font-family</span>: <span class="v">'Inter', sans-serif</span>;<br>
+        &nbsp;&nbsp;<span class="p">font-size</span>: <span class="u">16px</span>;<br>
+        &nbsp;&nbsp;<span class="p">line-height</span>: <span class="u">1.6</span>;<br>
+        &nbsp;&nbsp;<span class="p">color</span>: <span class="v">#1e293b</span>;<br>
+        &nbsp;&nbsp;<span class="p">background-color</span>: <span class="v">#f8fafc</span>;<br>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- TUGAS 2 -->
+  <div class="section">
+    <div class="sec-head">
+      <h2>🎨 Tugas 2 — Styling Header & Nav</h2>
+      <span class="lbadge easy">⭐ Mudah</span>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:15px;color:var(--muted);margin-bottom:14px">Buat header dan navigasi yang terlihat profesional menggunakan Flexbox.</p>
+      <div class="task-list">
+        <div class="task">
+          <div class="task-num">A</div>
+          <div class="task-body">
+            <h4>Styling Header</h4>
+            <p>Beri header: background warna gelap atau gradient, padding 20px, warna teks putih, lebar penuh (width: 100%). Nama Anda di h1 harus menonjol.</p>
+            <div class="tags"><span class="tag-sm">background</span><span class="tag-sm">padding</span><span class="tag-sm">color</span><span class="tag-sm pur">linear-gradient</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-num">B</div>
+          <div class="task-body">
+            <h4>Navbar Horizontal dengan Flexbox</h4>
+            <p>Buat nav menjadi horizontal menggunakan display:flex. Link nav tidak bergaris bawah, berwarna putih/terang, dan berubah saat di-hover (opacity atau warna berbeda).</p>
+            <div class="tags"><span class="tag-sm">display: flex</span><span class="tag-sm">gap</span><span class="tag-sm pur">a:hover</span><span class="tag-sm">text-decoration</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="code-tmpl">
+        <span class="s">header</span> {<br>
+        &nbsp;&nbsp;<span class="p">background</span>: <span class="v">linear-gradient(135deg, #1e3a5f, #2563eb)</span>;<br>
+        &nbsp;&nbsp;<span class="p">color</span>: <span class="v">white</span>;<br>
+        &nbsp;&nbsp;<span class="p">padding</span>: <span class="u">20px 40px</span>;<br>
+        &nbsp;&nbsp;<span class="p">display</span>: <span class="v">flex</span>;<br>
+        &nbsp;&nbsp;<span class="p">justify-content</span>: <span class="v">space-between</span>;<br>
+        &nbsp;&nbsp;<span class="p">align-items</span>: <span class="v">center</span>;<br>
+        }<br>
+        <span class="s">nav a</span> { <span class="p">color</span>: <span class="v">white</span>; <span class="p">text-decoration</span>: <span class="v">none</span>; <span class="p">padding</span>: <span class="u">8px 16px</span>; <span class="p">border-radius</span>: <span class="u">6px</span>; <span class="p">transition</span>: <span class="v">all 0.3s</span>; }<br>
+        <span class="s">nav a:hover</span> { <span class="p">background</span>: <span class="v">rgba(255,255,255,0.2)</span>; }
+      </div>
+    </div>
+  </div>
+
+  <!-- TUGAS 3 -->
+  <div class="section">
+    <div class="sec-head">
+      <h2>📦 Tugas 3 — Box Model & Cards</h2>
+      <span class="lbadge med">⭐⭐ Menengah</span>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:15px;color:var(--muted);margin-bottom:14px">Terapkan box model dan buat card keahlian yang menarik.</p>
+      <div class="task-list">
+        <div class="task">
+          <div class="task-num">1</div>
+          <div class="task-body">
+            <h4>Container Utama</h4>
+            <p>Buat class <code style="font-family:'Fira Code',monospace;font-size:12px">.container</code> dengan max-width 1100px, margin auto (untuk center), dan padding kiri-kanan 40px. Terapkan ke semua section.</p>
+            <div class="tags"><span class="tag-sm">max-width</span><span class="tag-sm">margin: 0 auto</span><span class="tag-sm">padding</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-num">2</div>
+          <div class="task-body">
+            <h4>Card Keahlian</h4>
+            <p>Buat class <code style="font-family:'Fira Code',monospace;font-size:12px">.skill-card</code> dengan background putih, border-radius 12px, padding 20px, box-shadow halus. Tampilkan 3 card berdampingan dengan Flexbox.</p>
+            <div class="tags"><span class="tag-sm">border-radius</span><span class="tag-sm">box-shadow</span><span class="tag-sm pur">display: flex</span><span class="tag-sm grn">flex-wrap: wrap</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-num">3</div>
+          <div class="task-body">
+            <h4>Hover Effect pada Card</h4>
+            <p>Tambahkan efek saat mouse hover pada card: geser ke atas sedikit (transform: translateY(-4px)) dan pertegas shadow. Gunakan transition untuk efek halus.</p>
+            <div class="tags"><span class="tag-sm pur">.card:hover</span><span class="tag-sm">transform</span><span class="tag-sm">transition</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="preview-label">🖥️ Target Hasil</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div class="preview-card"><div class="preview-avatar"></div><div class="preview-text"><h4>HTML5</h4><p>Skill Level: 80%</p><button class="preview-btn">Detail →</button></div></div>
+          <div class="preview-card"><div class="preview-avatar" style="background:linear-gradient(135deg,#22c55e,#06b6d4)"></div><div class="preview-text"><h4>CSS3</h4><p>Skill Level: 75%</p><button class="preview-btn" style="background:#22c55e">Detail →</button></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TUGAS 4 -->
+  <div class="section">
+    <div class="sec-head">
+      <h2>🎭 Tugas 4 — Styling Form Kontak</h2>
+      <span class="lbadge med">⭐⭐ Menengah</span>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:15px;color:var(--muted);margin-bottom:14px">Buat form kontak.html tampil rapi dan profesional dengan CSS.</p>
+      <div class="req-list">
+        <div class="req">Input dan textarea: padding 12px, border 1px solid #e2e8f0, border-radius 8px, lebar penuh (width: 100%)</div>
+        <div class="req">Input saat focus: border berubah warna biru + box-shadow biru transparan (gunakan :focus)</div>
+        <div class="req">Tombol submit: background biru, teks putih, padding, border-radius, hover effect</div>
+        <div class="req">Label: display block, font-weight bold, margin-bottom 6px</div>
+        <div class="req">Grup field: margin-bottom 20px untuk jarak antar field</div>
+      </div>
+      <div class="code-tmpl">
+        <span class="s">input, textarea, select</span> {<br>
+        &nbsp;&nbsp;<span class="p">width</span>: <span class="u">100%</span>; <span class="p">padding</span>: <span class="u">12px 16px</span>;<br>
+        &nbsp;&nbsp;<span class="p">border</span>: <span class="v">1px solid #e2e8f0</span>; <span class="p">border-radius</span>: <span class="u">8px</span>;<br>
+        &nbsp;&nbsp;<span class="p">font-size</span>: <span class="u">15px</span>; <span class="p">transition</span>: <span class="v">border-color .3s, box-shadow .3s</span>;<br>
+        &nbsp;&nbsp;<span class="p">outline</span>: <span class="v">none</span>;<br>
+        }<br>
+        <span class="s">input:focus, textarea:focus</span> {<br>
+        &nbsp;&nbsp;<span class="p">border-color</span>: <span class="v">#3b82f6</span>;<br>
+        &nbsp;&nbsp;<span class="p">box-shadow</span>: <span class="v">0 0 0 3px rgba(59,130,246,0.15)</span>;<br>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- TUGAS 5 -->
+  <div class="section">
+    <div class="sec-head">
+      <h2>🚀 Tugas 5 — Tantangan: Dark Mode</h2>
+      <span class="lbadge hard">⭐⭐⭐ Tantangan</span>
+    </div>
+    <div class="sec-body">
+      <p style="font-size:15px;color:var(--muted);margin-bottom:14px">Tambahkan CSS Variables dan buat tema gelap (dark mode) untuk website Anda.</p>
+      <div class="task-list">
+        <div class="task">
+          <div class="task-num">✦</div>
+          <div class="task-body">
+            <h4>Gunakan CSS Custom Properties (Variables)</h4>
+            <p>Deklarasikan variabel warna di :root, lalu pakai var(--nama-variable) di seluruh CSS Anda. Buat versi light dan dark theme. Toggle dengan JavaScript saat tombol diklik.</p>
+            <div class="tags"><span class="tag-sm pur">:root { --var }</span><span class="tag-sm">var(--warna)</span><span class="tag-sm grn">[data-theme="dark"]</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="code-tmpl">
+        <span class="s">:root</span> { <span class="cm">/* Light theme */</span><br>
+        &nbsp;&nbsp;<span class="p">--bg</span>: <span class="v">#f8fafc</span>; <span class="p">--text</span>: <span class="v">#1e293b</span>;<br>
+        &nbsp;&nbsp;<span class="p">--card-bg</span>: <span class="v">white</span>; <span class="p">--accent</span>: <span class="v">#3b82f6</span>;<br>
+        }<br>
+        <span class="s">[data-theme="dark"]</span> { <span class="cm">/* Dark theme */</span><br>
+        &nbsp;&nbsp;<span class="p">--bg</span>: <span class="v">#0f172a</span>; <span class="p">--text</span>: <span class="v">#e2e8f0</span>;<br>
+        &nbsp;&nbsp;<span class="p">--card-bg</span>: <span class="v">#1e293b</span>;<br>
+        }<br>
+        <span class="s">body</span> { <span class="p">background</span>: <span class="v">var(--bg)</span>; <span class="p">color</span>: <span class="v">var(--text)</span>; }
+      </div>
+      <div class="tips">
+        <h4>💡 Tips & Panduan</h4>
+        <ul>
+          <li>Tombol toggle: &lt;button onclick="document.documentElement.dataset.theme = 'dark'"&gt;Dark&lt;/button&gt;</li>
+          <li>Atau lebih cerdas: toggle antara light dan dark dengan if/else di JavaScript</li>
+          <li>Simpan preferensi di localStorage agar tetap tersimpan saat halaman di-refresh</li>
+          <li>Gunakan localStorage.setItem('theme', 'dark') dan getItem('theme') saat halaman dimuat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section">
+    <div class="sec-head"><h2>✅ Checklist Pengumpulan</h2></div>
+    <div class="sec-body">
+      <div class="checklist">
+        <div class="ck"><input type="checkbox" id="c1"><label for="c1">File style.css sudah dibuat dan terhubung ke index.html</label></div>
+        <div class="ck"><input type="checkbox" id="c2"><label for="c2">Google Fonts berhasil dipakai (cek di browser)</label></div>
+        <div class="ck"><input type="checkbox" id="c3"><label for="c3">Header dan navbar tampil rapi secara horizontal</label></div>
+        <div class="ck"><input type="checkbox" id="c4"><label for="c4">Card keahlian punya hover effect (transform + shadow)</label></div>
+        <div class="ck"><input type="checkbox" id="c5"><label for="c5">Form kontak tampil rapi dengan focus effect</label></div>
+        <div class="ck"><input type="checkbox" id="c6"><label for="c6">Sudah menggunakan CSS Variables (bonus)</label></div>
+        <div class="ck"><input type="checkbox" id="c7"><label for="c7">Dark mode berfungsi dengan toggle (bonus)</label></div>
+        <div class="ck"><input type="checkbox" id="c8"><label for="c8">Website terlihat bagus di ukuran layar laptop (1280px)</label></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 48px 40px;display:flex;justify-content:space-between;align-items:center">
+  <div style="font-size:14px;color:var(--muted)">📅 Hari 2 / 3 · CSS Dasar</div>
+  <div style="display:flex;gap:12px">
+    <a href="index.html" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--a2)">🖥️ Kembali ke Presentasi</a>
+    <a href="../hari-3/index.html" style="padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:#c084fc">📅 Hari 3: CSS Lanjutan →</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Hari 1 – Pengenalan HTML | Alwin Dwi Kurniawan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e1a;
+      --card: #141e30;
+      --card2: #1a2740;
+      --accent: #f97316;
+      --a2: #fb923c;
+      --blue: #3b82f6;
+      --green: #22c55e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: rgba(249,115,22,.2);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 75% 25%, rgba(249,115,22,.08), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(59,130,246,.05), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    .hbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 40px;
+      background: rgba(10,14,26,.93);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; letter-spacing: .06em; }
+    .logo-ico { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg,#f97316,#f59e0b); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; }
+    .logo-t { color: var(--a2); }
+    .hbr { display: flex; align-items: center; gap: 10px; }
+    .dbadge { padding: 5px 14px; border-radius: 50px; background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.35); font-size: 12px; font-weight: 700; color: var(--a2); letter-spacing: .07em; }
+    .snum { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .snum strong { color: var(--text); }
+    .hlink { padding: 5px 13px; border-radius: 50px; font-size: 12px; font-weight: 700; text-decoration: none; transition: all .2s; }
+    .hl-home { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: var(--muted); }
+    .hl-home:hover { color: #fff; }
+    .hl-green { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.35); color: #4ade80; }
+    .hl-blue { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.35); color: #60a5fa; }
+
+    /* ── PROGRESS ── */
+    #pb { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent),#f59e0b); z-index: 200; transition: width .4s; border-radius: 0 2px 2px 0; }
+
+    /* ── SLIDES ── */
+    .slides { position: relative; width: 100%; height: 100vh; z-index: 1; }
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 88px 80px 78px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s, transform .4s;
+      transform: translateX(36px);
+    }
+    .slide.active { opacity: 1; pointer-events: all; transform: translateX(0); }
+
+    /* ── NAV ── */
+    .navb { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 100; }
+    .nb { width: 46px; height: 46px; border-radius: 50%; border: 2px solid rgba(255,255,255,.1); background: rgba(20,30,48,.9); backdrop-filter: blur(8px); color: var(--text); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .25s; }
+    .nb:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.12); box-shadow: 0 0 18px rgba(249,115,22,.5); }
+    .nb:disabled { opacity: .22; cursor: not-allowed; transform: none; }
+    .dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 100; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.14); cursor: pointer; transition: all .3s; }
+    .dot.on { background: var(--a2); transform: scale(1.6); box-shadow: 0 0 8px var(--a2); }
+    .kh { position: fixed; bottom: 16px; right: 26px; font-size: 11px; color: rgba(148,163,184,.4); display: flex; gap: 5px; align-items: center; }
+    kbd { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 4px; padding: 1px 5px; font-size: 10px; }
+
+    /* ── CHIPS ── */
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border: 1px solid; margin-bottom: 6px; }
+    .co { background: rgba(249,115,22,.1); border-color: rgba(249,115,22,.4); color: var(--a2); }
+    .cb { background: rgba(59,130,246,.1); border-color: rgba(59,130,246,.4); color: #60a5fa; }
+    .cg { background: rgba(34,197,94,.1); border-color: rgba(34,197,94,.4); color: #4ade80; }
+    .cp { background: rgba(139,92,246,.1); border-color: rgba(139,92,246,.4); color: #c084fc; }
+
+    .stitle { font-size: clamp(24px,3.8vw,44px); font-weight: 800; text-align: center; line-height: 1.15; margin-bottom: 22px; }
+    .go { background: linear-gradient(90deg,#f97316,#f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gb { background: linear-gradient(90deg,#3b82f6,#8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gg { background: linear-gradient(90deg,#22c55e,#06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* ── CODE BLOCK ── */
+    pre.code {
+      background: #060c18;
+      border: 1px solid rgba(249,115,22,.22);
+      border-radius: 13px;
+      padding: 36px 24px 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13.5px;
+      line-height: 1.85;
+      text-align: left;
+      position: relative;
+      overflow: auto;
+      width: 100%;
+      white-space: pre;
+    }
+    pre.code::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 28px;
+      background: rgba(255,255,255,.02);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    pre.code::after {
+      content: '● ● ●';
+      position: absolute; top: 7px; left: 14px;
+      font-size: 9px; color: rgba(255,255,255,.16); letter-spacing: 3px;
+    }
+
+    /* syntax colors */
+    .t  { color: #fb923c; }   /* tag      */
+    .a  { color: #60a5fa; }   /* attr     */
+    .v  { color: #4ade80; }   /* value    */
+    .cm { color: #3b4f60; font-style: italic; } /* comment */
+    .tx { color: #e2e8f0; }   /* text     */
+    .u  { color: #f59e0b; }   /* unit/num */
+    .s  { color: #c084fc; }   /* selector */
+    .p  { color: #60a5fa; }   /* property */
+
+    /* ── CARDS ── */
+    .grid { display: grid; gap: 14px; width: 100%; max-width: 900px; }
+    .g2 { grid-template-columns: 1fr 1fr; }
+    .g3 { grid-template-columns: 1fr 1fr 1fr; }
+    .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .card { background: var(--card); border: 1px solid rgba(255,255,255,.07); border-radius: 15px; padding: 20px; transition: all .3s; }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(249,115,22,.1); }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ── TAG PILLS ── */
+    .tgrid { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; max-width: 780px; }
+    .tpill { padding: 8px 16px; border-radius: 8px; background: var(--card); border: 1px solid rgba(255,255,255,.07); font-family: 'Fira Code',monospace; font-size: 12.5px; font-weight: 600; color: var(--a2); transition: all .25s; cursor: default; }
+    .tpill:hover { background: rgba(249,115,22,.1); border-color: var(--accent); transform: scale(1.06); }
+    .tpill small { color: var(--muted); font-size: 10.5px; display: block; font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 400; margin-top: 2px; }
+
+    /* ── TABLE ── */
+    .tbl { width: 100%; max-width: 820px; border-collapse: separate; border-spacing: 0 7px; }
+    .tbl th { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 7px 16px; text-align: left; }
+    .tbl td { padding: 12px 16px; font-size: 13.5px; background: var(--card); border: 1px solid rgba(255,255,255,.06); }
+    .tbl td:first-child { border-radius: 9px 0 0 9px; font-family: 'Fira Code',monospace; color: var(--a2); font-weight: 600; }
+    .tbl td:last-child { border-radius: 0 9px 9px 0; color: var(--muted); font-size: 13px; }
+    .tbl tr:hover td { border-color: var(--accent); color: var(--text); }
+
+    /* ── COVER ── */
+    .cv { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .cvmain { font-size: clamp(38px,6vw,76px); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; }
+    .cvsub { font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.65; }
+    .cvtags { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+    .ctag { background: var(--card2); border: 1px solid rgba(255,255,255,.07); padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .cdot { width: 8px; height: 8px; border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── ANATOMY ── */
+    .anat { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 700px; }
+    .ar { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 10px; background: var(--card); border: 1px solid rgba(255,255,255,.06); font-size: 14px; transition: all .3s; }
+    .ar:hover { border-color: var(--accent); transform: translateX(5px); }
+    .ar .cd { font-family: 'Fira Code',monospace; color: var(--a2); font-size: 13px; min-width: 200px; }
+    .ar .de { color: var(--muted); }
+
+    /* ── SEMANTIC ── */
+    .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: 100%; max-width: 860px; }
+    .cpanel { border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,.07); }
+    .chead { padding: 11px 18px; font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+    .chead.bad { background: rgba(239,68,68,.12); color: #f87171; border-bottom: 1px solid rgba(239,68,68,.18); }
+    .chead.good { background: rgba(34,197,94,.12); color: #4ade80; border-bottom: 1px solid rgba(34,197,94,.18); }
+    .cbody { padding: 16px 18px; background: var(--card); }
+
+    /* ── STRUCT ── */
+    .struct { display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 660px; }
+    .sr { display: flex; align-items: center; border-radius: 8px; overflow: hidden; transition: all .3s; cursor: default; }
+    .sr:hover { transform: scale(1.01); }
+    .sl { min-width: 170px; padding: 10px 14px; font-family: 'Fira Code',monospace; font-size: 12.5px; font-weight: 600; }
+    .sb { flex: 1; padding: 10px 14px; font-size: 13px; color: var(--muted); }
+    .shtml { background: rgba(249,115,22,.1); color: var(--accent); }
+    .shead { background: rgba(59,130,246,.1); color: #60a5fa; }
+    .sbody { background: rgba(34,197,94,.1); color: #4ade80; }
+    .stag  { background: rgba(168,85,247,.1); color: #c084fc; }
+
+    /* ── HOMEWORK ── */
+    .hw { background: linear-gradient(135deg,rgba(249,115,22,.09),rgba(245,158,11,.06)); border: 1px solid rgba(249,115,22,.32); border-radius: 18px; padding: 24px 36px; max-width: 700px; width: 100%; }
+    .hw h3 { font-size: 17px; font-weight: 800; color: var(--a2); margin-bottom: 14px; display: flex; align-items: center; gap: 9px; }
+    .hwl { display: flex; flex-direction: column; gap: 9px; }
+    .hwl li { display: flex; align-items: flex-start; gap: 11px; font-size: 14px; list-style: none; }
+    .hwl li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .np { display: inline-flex; align-items: center; gap: 7px; padding: 9px 20px; border-radius: 50px; background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.35); font-size: 13px; font-weight: 700; color: #60a5fa; margin-top: 11px; }
+  </style>
+</head>
+<body>
+
+<div id="pb"></div>
+
+<!-- HEADER -->
+<div class="hbar">
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="../index.html" class="hlink hl-home">🏠 Beranda</a>
+    <div class="logo"><div class="logo-ico">H</div><span class="logo-t">HTML</span>&nbsp;Workshop</div>
+  </div>
+  <div class="hbr">
+    <div class="dbadge">📅 HARI 1 / 3</div>
+    <div class="snum">Slide <strong id="cur">1</strong> / <strong id="tot">9</strong></div>
+    <a href="tugas.html"              class="hlink hl-green">📝 Tugas</a>
+    <a href="../hari-2/index.html"    class="hlink hl-blue">Hari 2 →</a>
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="slides">
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════ -->
+<div class="slide active" id="s0">
+  <div class="cv">
+    <div class="chip co">🗓️ Hari 1 dari 3 · HTML</div>
+    <h1 class="cvmain">Pengenalan<br><span class="go">HTML</span></h1>
+    <p class="cvsub">
+      HyperText Markup Language — bahasa fondasi semua website di dunia.
+      Hari ini kita bangun dari nol hingga memahami semantic HTML5.
+    </p>
+    <div class="cvtags">
+      <div class="ctag"><div class="cdot" style="background:#f97316"></div>Struktur Dokumen</div>
+      <div class="ctag"><div class="cdot" style="background:#3b82f6"></div>Tag &amp; Elemen</div>
+      <div class="ctag"><div class="cdot" style="background:#22c55e"></div>Semantic HTML5</div>
+    </div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:14px;padding:12px 28px;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.25);border-radius:50px">
+      <img src="../foto-alwin.jpg" alt="Alwin Dwi Kurniawan" style="width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid rgba(249,115,22,.5);flex-shrink:0">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:#e2e8f0">Alwin Dwi Kurniawan</div>
+        <div style="font-size:12px;color:#94a3b8">Web Development Instructor · Workshop HTML &amp; CSS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — APA ITU HTML
+══════════════════════════════════════ -->
+<div class="slide" id="s1">
+  <div class="chip co">📖 Konsep Dasar</div>
+  <h2 class="stitle">Apa itu <span class="go">HTML?</span></h2>
+  <div class="grid g3">
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:9px">🏗️</div>
+      <h3>Kerangka Website</h3>
+      <p>HTML adalah "tulang" website. Tanpa HTML, tidak ada yang bisa ditampilkan. CSS = tampilan, JS = fungsi.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:9px">📝</div>
+      <h3>Markup Language</h3>
+      <p>Bukan bahasa pemrograman! HTML "menandai" konten agar browser tahu cara menampilkannya.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:9px">🌐</div>
+      <h3>Standar Web Global</h3>
+      <p>Semua website pakai HTML. Versi terbaru adalah HTML5 (2014) dengan fitur-fitur modern yang kaya.</p>
+    </div>
+  </div>
+  <pre class="code" style="max-width:900px;margin-top:18px"><span class="cm">&lt;!-- HTML memberi MAKNA pada konten --&gt;</span>
+
+<span class="t">&lt;h1&gt;</span><span class="tx">Judul Utama Halaman</span><span class="t">&lt;/h1&gt;</span>    <span class="cm">&lt;!-- Ini judul, bukan sekadar teks besar --&gt;</span>
+<span class="t">&lt;p&gt;</span><span class="tx">Ini paragraf artikel saya.</span><span class="t">&lt;/p&gt;</span>    <span class="cm">&lt;!-- Ini paragraf, bukan sekadar teks biasa --&gt;</span>
+<span class="t">&lt;button&gt;</span><span class="tx">Klik Saya</span><span class="t">&lt;/button&gt;</span>          <span class="cm">&lt;!-- Ini tombol yang bisa diklik --&gt;</span></pre>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — STRUKTUR DOKUMEN
+══════════════════════════════════════ -->
+<div class="slide" id="s2">
+  <div class="chip cb">🏛️ Struktur</div>
+  <h2 class="stitle">Struktur <span class="gb">Dokumen HTML</span></h2>
+  <div style="display:flex;gap:26px;align-items:flex-start;width:100%;max-width:900px">
+    <pre class="code" style="flex:1"><span class="t">&lt;!DOCTYPE html&gt;</span>        <span class="cm">&lt;!-- Deklarasi HTML5 --&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang=</span><span class="v">"id"</span><span class="t">&gt;</span>
+
+  <span class="t">&lt;head&gt;</span>               <span class="cm">&lt;!-- Informasi halaman --&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">charset=</span><span class="v">"UTF-8"</span><span class="t">&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">name=</span><span class="v">"viewport"</span> <span class="a">content=</span><span class="v">"width=device-width"</span><span class="t">&gt;</span>
+    <span class="t">&lt;title&gt;</span><span class="tx">Judul di Tab Browser</span><span class="t">&lt;/title&gt;</span>
+  <span class="t">&lt;/head&gt;</span>
+
+  <span class="t">&lt;body&gt;</span>               <span class="cm">&lt;!-- Konten yang terlihat --&gt;</span>
+    <span class="t">&lt;h1&gt;</span><span class="tx">Halo Dunia!</span><span class="t">&lt;/h1&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">Website pertama saya.</span><span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;/body&gt;</span>
+
+<span class="t">&lt;/html&gt;</span></pre>
+    <div class="struct" style="flex:1">
+      <div class="sr"><div class="sl shtml">&lt;!DOCTYPE&gt;</div><div class="sb">Memberitahu browser: ini HTML5</div></div>
+      <div class="sr"><div class="sl shtml">&lt;html&gt;</div><div class="sb">Pembungkus seluruh dokumen</div></div>
+      <div class="sr"><div class="sl shead">&lt;head&gt;</div><div class="sb">Meta info: charset, title, link CSS</div></div>
+      <div class="sr"><div class="sl stag">&lt;meta charset&gt;</div><div class="sb">Encoding karakter (wajib ada!)</div></div>
+      <div class="sr"><div class="sl stag">&lt;meta viewport&gt;</div><div class="sb">Agar tampil bagus di HP</div></div>
+      <div class="sr"><div class="sl stag">&lt;title&gt;</div><div class="sb">Teks di tab/judul browser</div></div>
+      <div class="sr"><div class="sl sbody">&lt;body&gt;</div><div class="sb">Semua konten yang dilihat user</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — TAG PENTING
+══════════════════════════════════════ -->
+<div class="slide" id="s3">
+  <div class="chip co">🏷️ Tag Essensial</div>
+  <h2 class="stitle">Tag HTML yang <span class="go">Wajib Dikuasai</span></h2>
+  <div class="tgrid">
+    <div class="tpill">&lt;h1&gt;–&lt;h6&gt;<small>Judul tingkat 1 sampai 6</small></div>
+    <div class="tpill">&lt;p&gt;<small>Paragraf teks</small></div>
+    <div class="tpill">&lt;a href=""&gt;<small>Link / Hyperlink</small></div>
+    <div class="tpill">&lt;img src="" alt=""&gt;<small>Gambar dengan deskripsi</small></div>
+    <div class="tpill">&lt;ul&gt; / &lt;ol&gt;<small>Daftar tak berurut / berurut</small></div>
+    <div class="tpill">&lt;li&gt;<small>Item dalam daftar</small></div>
+    <div class="tpill">&lt;div&gt;<small>Kontainer blok (umum)</small></div>
+    <div class="tpill">&lt;span&gt;<small>Kontainer inline</small></div>
+    <div class="tpill">&lt;form&gt;<small>Formulir input</small></div>
+    <div class="tpill">&lt;input type=""&gt;<small>Kolom isian / checkbox / radio</small></div>
+    <div class="tpill">&lt;button&gt;<small>Tombol klik</small></div>
+    <div class="tpill">&lt;table&gt;<small>Tabel data</small></div>
+    <div class="tpill">&lt;strong&gt; / &lt;em&gt;<small>Tebal / Miring (bermakna)</small></div>
+    <div class="tpill">&lt;br&gt; / &lt;hr&gt;<small>Baris baru / Garis horizontal</small></div>
+    <div class="tpill">&lt;link&gt; / &lt;script&gt;<small>Hubungkan CSS / JavaScript</small></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — ANATOMI TAG
+══════════════════════════════════════ -->
+<div class="slide" id="s4">
+  <div class="chip cb">🔬 Anatomi Tag</div>
+  <h2 class="stitle">Bedah Sebuah <span class="gb">Tag HTML</span></h2>
+  <pre class="code" style="max-width:720px;font-size:16px;text-align:center;padding:36px 32px 22px;margin-bottom:22px"><span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"https://google.com"</span> <span class="a">target=</span><span class="v">"_blank"</span> <span class="a">title=</span><span class="v">"Buka Google"</span><span class="t">&gt;</span><span class="tx">Kunjungi Google</span><span class="t">&lt;/a&gt;</span></pre>
+  <div class="anat">
+    <div class="ar"><div class="cd">&lt;a … &gt;</div><span style="color:rgba(255,255,255,.2)">→</span><div class="de"><strong>Tag Pembuka</strong> — nama tag "a" = anchor (jangkar/link)</div></div>
+    <div class="ar"><div class="cd">href="…"</div><span style="color:rgba(255,255,255,.2)">→</span><div class="de"><strong>Atribut pertama</strong> — href = Hypertext Reference (tujuan link)</div></div>
+    <div class="ar"><div class="cd">target="_blank"</div><span style="color:rgba(255,255,255,.2)">→</span><div class="de"><strong>Atribut kedua</strong> — buka link di tab baru</div></div>
+    <div class="ar"><div class="cd">title="…"</div><span style="color:rgba(255,255,255,.2)">→</span><div class="de"><strong>Atribut ketiga</strong> — tooltip saat mouse hover</div></div>
+    <div class="ar"><div class="cd">Kunjungi Google</div><span style="color:rgba(255,255,255,.2)">→</span><div class="de"><strong>Konten/Isi</strong> — teks yang terlihat dan bisa diklik</div></div>
+    <div class="ar"><div class="cd">&lt;/a&gt;</div><span style="color:rgba(255,255,255,.2)">→</span><div class="de"><strong>Tag Penutup</strong> — wajib ada! Tandai dengan slash ( / )</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — FORM & INPUT
+══════════════════════════════════════ -->
+<div class="slide" id="s5">
+  <div class="chip co">📋 Form</div>
+  <h2 class="stitle">Membuat <span class="go">Form HTML</span></h2>
+  <div style="display:flex;gap:24px;width:100%;max-width:920px;align-items:flex-start">
+    <pre class="code" style="flex:1;font-size:13px"><span class="t">&lt;form</span> <span class="a">action=</span><span class="v">"proses.php"</span> <span class="a">method=</span><span class="v">"POST"</span><span class="t">&gt;</span>
+
+  <span class="cm">&lt;!-- Input teks --&gt;</span>
+  <span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"nama"</span><span class="t">&gt;</span><span class="tx">Nama Lengkap:</span><span class="t">&lt;/label&gt;</span>
+  <span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"text"</span> <span class="a">id=</span><span class="v">"nama"</span> <span class="a">name=</span><span class="v">"nama"</span> <span class="a">required</span><span class="t">&gt;</span>
+
+  <span class="cm">&lt;!-- Input email --&gt;</span>
+  <span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"email"</span><span class="t">&gt;</span><span class="tx">Email:</span><span class="t">&lt;/label&gt;</span>
+  <span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"email"</span> <span class="a">id=</span><span class="v">"email"</span> <span class="a">placeholder=</span><span class="v">"nama@email.com"</span><span class="t">&gt;</span>
+
+  <span class="cm">&lt;!-- Textarea --&gt;</span>
+  <span class="t">&lt;textarea</span> <span class="a">name=</span><span class="v">"pesan"</span> <span class="a">rows=</span><span class="v">"4"</span><span class="t">&gt;&lt;/textarea&gt;</span>
+
+  <span class="cm">&lt;!-- Tombol Submit --&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">type=</span><span class="v">"submit"</span><span class="t">&gt;</span><span class="tx">Kirim Pesan</span><span class="t">&lt;/button&gt;</span>
+
+<span class="t">&lt;/form&gt;</span></pre>
+    <div style="flex:1">
+      <table class="tbl" style="max-width:100%">
+        <thead><tr><th>type=""</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td>text</td><td>Teks satu baris</td></tr>
+          <tr><td>email</td><td>Email (validasi otomatis)</td></tr>
+          <tr><td>password</td><td>Input tersembunyi (*)</td></tr>
+          <tr><td>number</td><td>Hanya angka</td></tr>
+          <tr><td>checkbox</td><td>Centang (bisa banyak)</td></tr>
+          <tr><td>radio</td><td>Pilih satu opsi</td></tr>
+          <tr><td>file</td><td>Upload file</td></tr>
+          <tr><td>date</td><td>Pilih tanggal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — SEMANTIC HTML
+══════════════════════════════════════ -->
+<div class="slide" id="s6">
+  <div class="chip cg">✅ Semantic HTML5</div>
+  <h2 class="stitle"><span class="gg">Semantic HTML</span> vs Non-Semantic</h2>
+  <div class="cmp">
+    <div class="cpanel">
+      <div class="chead bad">❌ Non-Semantic (Jangan!)</div>
+      <div class="cbody">
+        <pre class="code" style="border:none;background:transparent;padding:8px 0;font-size:13px"><span class="t">&lt;div</span> <span class="a">id=</span><span class="v">"header"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div</span> <span class="a">id=</span><span class="v">"nav"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div</span> <span class="a">id=</span><span class="v">"main"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">id=</span><span class="v">"article"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">id=</span><span class="v">"sidebar"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div</span> <span class="a">id=</span><span class="v">"footer"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span></pre>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Browser &amp; mesin pencari tidak tahu makna setiap &lt;div&gt;</p>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="chead good">✅ Semantic HTML5 (Gunakan!)</div>
+      <div class="cbody">
+        <pre class="code" style="border:none;background:transparent;padding:8px 0;font-size:13px"><span class="t">&lt;header&gt;</span><span class="tx">...</span><span class="t">&lt;/header&gt;</span>
+<span class="t">&lt;nav&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;main&gt;</span>
+  <span class="t">&lt;article&gt;</span><span class="tx">...</span><span class="t">&lt;/article&gt;</span>
+  <span class="t">&lt;aside&gt;</span><span class="tx">...</span><span class="t">&lt;/aside&gt;</span>
+<span class="t">&lt;/main&gt;</span>
+<span class="t">&lt;footer&gt;</span><span class="tx">...</span><span class="t">&lt;/footer&gt;</span></pre>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Jelas maknanya — bagus untuk SEO, aksesibilitas, dan tim</p>
+      </div>
+    </div>
+  </div>
+  <div class="grid g4" style="max-width:880px;margin-top:16px">
+    <div class="card" style="text-align:center;padding:14px"><div style="font-family:'Fira Code',monospace;font-size:12px;color:var(--accent)">&lt;header&gt;</div><p style="font-size:11.5px;margin-top:5px">Kepala halaman</p></div>
+    <div class="card" style="text-align:center;padding:14px"><div style="font-family:'Fira Code',monospace;font-size:12px;color:#60a5fa">&lt;section&gt;</div><p style="font-size:11.5px;margin-top:5px">Bagian konten</p></div>
+    <div class="card" style="text-align:center;padding:14px"><div style="font-family:'Fira Code',monospace;font-size:12px;color:#4ade80">&lt;article&gt;</div><p style="font-size:11.5px;margin-top:5px">Konten mandiri</p></div>
+    <div class="card" style="text-align:center;padding:14px"><div style="font-family:'Fira Code',monospace;font-size:12px;color:#c084fc">&lt;figure&gt;</div><p style="font-size:11.5px;margin-top:5px">Gambar + caption</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — CONTOH HALAMAN NYATA
+══════════════════════════════════════ -->
+<div class="slide" id="s7">
+  <div class="chip co">💻 Contoh Lengkap</div>
+  <h2 class="stitle">Halaman Profil <span class="go">HTML Lengkap</span></h2>
+  <pre class="code" style="max-width:920px;font-size:13px"><span class="t">&lt;!DOCTYPE html&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang=</span><span class="v">"id"</span><span class="t">&gt;</span>
+<span class="t">&lt;head&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">charset=</span><span class="v">"UTF-8"</span><span class="t">&gt;</span>
+  <span class="t">&lt;title&gt;</span><span class="tx">Profil Saya</span><span class="t">&lt;/title&gt;</span>
+<span class="t">&lt;/head&gt;</span>
+<span class="t">&lt;body&gt;</span>
+
+  <span class="t">&lt;header&gt;</span>
+    <span class="t">&lt;h1&gt;</span><span class="tx">Budi Santoso — Web Developer</span><span class="t">&lt;/h1&gt;</span>
+    <span class="t">&lt;nav&gt;</span>
+      <span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#tentang"</span><span class="t">&gt;</span><span class="tx">Tentang</span><span class="t">&lt;/a&gt;</span> |
+      <span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#keahlian"</span><span class="t">&gt;</span><span class="tx">Keahlian</span><span class="t">&lt;/a&gt;</span> |
+      <span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#kontak"</span><span class="t">&gt;</span><span class="tx">Kontak</span><span class="t">&lt;/a&gt;</span>
+    <span class="t">&lt;/nav&gt;</span>
+  <span class="t">&lt;/header&gt;</span>
+
+  <span class="t">&lt;main&gt;</span>
+    <span class="t">&lt;section</span> <span class="a">id=</span><span class="v">"tentang"</span><span class="t">&gt;</span>
+      <span class="t">&lt;h2&gt;</span><span class="tx">Tentang Saya</span><span class="t">&lt;/h2&gt;</span>
+      <span class="t">&lt;p&gt;</span><span class="tx">Saya seorang web developer dari Jakarta.</span><span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;/section&gt;</span>
+    <span class="t">&lt;section</span> <span class="a">id=</span><span class="v">"keahlian"</span><span class="t">&gt;</span>
+      <span class="t">&lt;h2&gt;</span><span class="tx">Keahlian</span><span class="t">&lt;/h2&gt;</span>
+      <span class="t">&lt;ul&gt;</span>
+        <span class="t">&lt;li&gt;</span><span class="tx">HTML5</span><span class="t">&lt;/li&gt;</span>
+        <span class="t">&lt;li&gt;</span><span class="tx">CSS3</span><span class="t">&lt;/li&gt;</span>
+        <span class="t">&lt;li&gt;</span><span class="tx">JavaScript</span><span class="t">&lt;/li&gt;</span>
+      <span class="t">&lt;/ul&gt;</span>
+    <span class="t">&lt;/section&gt;</span>
+  <span class="t">&lt;/main&gt;</span>
+
+  <span class="t">&lt;footer&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">&amp;copy; 2025 Budi Santoso</span><span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;/footer&gt;</span>
+
+<span class="t">&lt;/body&gt;</span>
+<span class="t">&lt;/html&gt;</span></pre>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 9 — PENUTUP
+══════════════════════════════════════ -->
+<div class="slide" id="s8">
+  <div class="chip co">🏁 Selesai Hari 1!</div>
+  <h2 class="stitle">Ringkasan &amp; <span class="go">Tugas Hari Ini</span></h2>
+  <p style="color:var(--muted);font-size:15px;margin-bottom:20px;text-align:center">
+    Anda sudah belajar: Struktur HTML · Tag penting · Anatomi tag · Form · Semantic HTML
+  </p>
+  <div class="hw">
+    <h3>📝 Tugas Mandiri — Klik "Tugas" di atas</h3>
+    <ul class="hwl">
+      <li>Buat <strong>index.html</strong> halaman profil diri sendiri dari nol</li>
+      <li>Gunakan minimal: header, nav, main, section, footer</li>
+      <li>Tambahkan daftar keahlian dengan &lt;ul&gt; dan &lt;li&gt;</li>
+      <li>Buat form kontak sederhana (nama, email, pesan, tombol)</li>
+      <li>Pastikan semua gambar punya atribut <strong>alt</strong></li>
+    </ul>
+  </div>
+  <div class="np">📅 Besok – Hari 2: CSS Dasar, Selector &amp; Flexbox →</div>
+</div>
+
+</div><!-- /slides -->
+
+<div class="navb">
+  <button class="nb" id="pb2" onclick="go(-1)">‹</button>
+  <button class="nb" id="nb2" onclick="go(1)">›</button>
+</div>
+<div class="kh"><kbd>←</kbd><kbd>→</kbd> navigasi · <kbd>Space</kbd> lanjut</div>
+
+<script>
+  const N  = 9;
+  const sl = document.querySelectorAll('.slide');
+  let   c  = 0;
+
+  const pbar = document.getElementById('pb');
+  const cur  = document.getElementById('cur');
+  const de   = document.getElementById('dots');
+
+  // Buat dot navigator
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.onclick = () => gt(i);
+    de.appendChild(d);
+  }
+
+  function gt(n) {
+    sl[c].classList.remove('active');
+    de.children[c].classList.remove('on');
+    c = Math.max(0, Math.min(n, N - 1));
+    sl[c].classList.add('active');
+    de.children[c].classList.add('on');
+    cur.textContent = c + 1;
+    pbar.style.width = ((c + 1) / N * 100) + '%';
+    document.getElementById('pb2').disabled = c === 0;
+    document.getElementById('nb2').disabled = c === N - 1;
+  }
+
+  function go(d) { gt(c + d); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+
+  document.getElementById('tot').textContent = N;
+  gt(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Hari 2 – CSS Dasar | Alwin Dwi Kurniawan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070d1a;
+      --card: #0f1c2e;
+      --card2: #152438;
+      --accent: #3b82f6;
+      --a2: #60a5fa;
+      --purple: #8b5cf6;
+      --green: #22c55e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: rgba(59,130,246,.2);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(59,130,246,.08), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 15% 85%, rgba(139,92,246,.06), transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    .hbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 40px;
+      background: rgba(7,13,26,.93);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; letter-spacing: .06em; }
+    .logo-ico { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg,#3b82f6,#8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; font-weight: 900; }
+    .logo-t { color: var(--a2); }
+    .hbr { display: flex; align-items: center; gap: 10px; }
+    .dbadge { padding: 5px 14px; border-radius: 50px; background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.35); font-size: 12px; font-weight: 700; color: var(--a2); letter-spacing: .07em; }
+    .snum { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .snum strong { color: var(--text); }
+    .hlink { padding: 5px 13px; border-radius: 50px; font-size: 12px; font-weight: 700; text-decoration: none; transition: all .2s; }
+    .hl-home   { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: var(--muted); }
+    .hl-home:hover { color: #fff; }
+    .hl-green  { background: rgba(34,197,94,.12);  border: 1px solid rgba(34,197,94,.35);  color: #4ade80; }
+    .hl-orange { background: rgba(249,115,22,.1);  border: 1px solid rgba(249,115,22,.3);  color: #fb923c; }
+    .hl-purple { background: rgba(139,92,246,.1);  border: 1px solid rgba(139,92,246,.3);  color: #c084fc; }
+
+    /* ── PROGRESS ── */
+    #pb { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--purple)); z-index: 200; transition: width .4s; border-radius: 0 2px 2px 0; }
+
+    /* ── SLIDES ── */
+    .slides { position: relative; width: 100%; height: 100vh; z-index: 1; }
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 88px 80px 78px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s, transform .4s;
+      transform: translateX(36px);
+    }
+    .slide.active { opacity: 1; pointer-events: all; transform: translateX(0); }
+
+    /* ── NAV ── */
+    .navb { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 100; }
+    .nb { width: 46px; height: 46px; border-radius: 50%; border: 2px solid rgba(255,255,255,.1); background: rgba(15,28,46,.9); backdrop-filter: blur(8px); color: var(--text); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .25s; }
+    .nb:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.12); box-shadow: 0 0 18px rgba(59,130,246,.5); }
+    .nb:disabled { opacity: .22; cursor: not-allowed; transform: none; }
+    .dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 100; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.14); cursor: pointer; transition: all .3s; }
+    .dot.on { background: var(--a2); transform: scale(1.6); box-shadow: 0 0 8px var(--a2); }
+    .kh { position: fixed; bottom: 16px; right: 26px; font-size: 11px; color: rgba(148,163,184,.4); display: flex; gap: 5px; align-items: center; }
+    kbd { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 4px; padding: 1px 5px; font-size: 10px; }
+
+    /* ── CHIPS ── */
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border: 1px solid; margin-bottom: 6px; }
+    .cb  { background: rgba(59,130,246,.1);  border-color: rgba(59,130,246,.4);  color: var(--a2); }
+    .cp  { background: rgba(139,92,246,.1);  border-color: rgba(139,92,246,.4);  color: #c084fc; }
+    .cg  { background: rgba(34,197,94,.1);   border-color: rgba(34,197,94,.4);   color: #4ade80; }
+    .cc  { background: rgba(6,182,212,.1);   border-color: rgba(6,182,212,.4);   color: #22d3ee; }
+
+    .stitle { font-size: clamp(24px,3.8vw,44px); font-weight: 800; text-align: center; line-height: 1.15; margin-bottom: 22px; }
+    .gb { background: linear-gradient(90deg,#3b82f6,#8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gp { background: linear-gradient(90deg,#8b5cf6,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gg { background: linear-gradient(90deg,#22c55e,#06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* ── CODE BLOCK ── */
+    pre.code {
+      background: #040912;
+      border: 1px solid rgba(59,130,246,.2);
+      border-radius: 13px;
+      padding: 36px 24px 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13.5px;
+      line-height: 1.85;
+      text-align: left;
+      position: relative;
+      overflow: auto;
+      width: 100%;
+      white-space: pre;
+    }
+    pre.code::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 28px;
+      background: rgba(255,255,255,.02);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    pre.code::after {
+      content: '● ● ●';
+      position: absolute; top: 7px; left: 14px;
+      font-size: 9px; color: rgba(255,255,255,.16); letter-spacing: 3px;
+    }
+
+    /* syntax colors */
+    .p  { color: #60a5fa; }   /* property */
+    .v  { color: #4ade80; }   /* value    */
+    .s  { color: #c084fc; }   /* selector */
+    .cm { color: #3b4f60; font-style: italic; } /* comment */
+    .t  { color: #fb923c; }   /* tag      */
+    .u  { color: #f59e0b; }   /* unit/num */
+    .k  { color: #f472b6; }   /* keyword  */
+
+    /* ── CARDS ── */
+    .grid { display: grid; gap: 14px; width: 100%; max-width: 900px; }
+    .g2 { grid-template-columns: 1fr 1fr; }
+    .g3 { grid-template-columns: 1fr 1fr 1fr; }
+    .card { background: var(--card); border: 1px solid rgba(255,255,255,.07); border-radius: 15px; padding: 20px; transition: all .3s; }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(59,130,246,.1); }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ── SELECTOR TABLE ── */
+    .stbl { width: 100%; max-width: 820px; border-collapse: separate; border-spacing: 0 7px; }
+    .stbl th { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 7px 16px; text-align: left; }
+    .stbl td { padding: 12px 16px; font-size: 13.5px; background: var(--card); border: 1px solid rgba(255,255,255,.06); }
+    .stbl td:first-child  { border-radius: 9px 0 0 9px; font-family: 'Fira Code',monospace; color: #c084fc; font-weight: 600; }
+    .stbl td:nth-child(2) { font-family: 'Fira Code',monospace; color: #4ade80; font-size: 12.5px; }
+    .stbl td:last-child   { border-radius: 0 9px 9px 0; color: var(--muted); font-size: 13px; }
+    .stbl tr:hover td { border-color: var(--accent); color: var(--text); }
+
+    /* ── BOX MODEL ── */
+    .bm-margin  { background: rgba(245,158,11,.07); border: 2px dashed rgba(245,158,11,.4); border-radius: 16px; padding: 22px; position: relative; }
+    .bm-border  { background: rgba(239,68,68,.07);  border: 2px solid rgba(239,68,68,.5);   border-radius: 10px; padding: 18px; position: relative; }
+    .bm-padding { background: rgba(34,197,94,.07);  border: 2px dashed rgba(34,197,94,.4);  border-radius: 6px;  padding: 16px; position: relative; }
+    .bm-content { background: rgba(59,130,246,.2);  border: 2px solid rgba(59,130,246,.5);  border-radius: 4px;  width: 110px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--a2); }
+    .bml { position: absolute; top: -9px; left: 10px; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: .05em; }
+    .bm-margin  .bml { background: rgba(245,158,11,.2); color: #f59e0b; }
+    .bm-border  .bml { background: rgba(239,68,68,.2);  color: #f87171; }
+    .bm-padding .bml { background: rgba(34,197,94,.2);  color: #4ade80; }
+
+    /* ── SPECIFICITY ── */
+    .sprow { display: flex; align-items: center; gap: 14px; background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: 11px; padding: 13px 18px; width: 100%; max-width: 780px; transition: all .3s; }
+    .sprow:hover { border-color: var(--accent); transform: translateX(5px); }
+    .spcode { font-family: 'Fira Code',monospace; font-size: 12.5px; min-width: 200px; color: #c084fc; }
+    .spbar { flex: 1; display: flex; align-items: center; gap: 9px; }
+    .spbar-i { height: 7px; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--purple)); }
+    .spscore { font-size: 12px; font-weight: 700; color: var(--a2); min-width: 58px; }
+
+    /* ── FLEX DEMO ── */
+    .fd { background: var(--card); border: 2px dashed rgba(59,130,246,.3); border-radius: 13px; padding: 18px; display: flex; gap: 10px; width: 100%; max-width: 580px; transition: all .3s; min-height: 80px; align-items: center; }
+    .fi { background: linear-gradient(135deg,rgba(59,130,246,.2),rgba(139,92,246,.15)); border: 1px solid rgba(59,130,246,.4); border-radius: 8px; padding: 12px 18px; font-size: 12.5px; font-weight: 700; color: var(--a2); font-family: 'Fira Code',monospace; white-space: nowrap; }
+    .fcbtn { padding: 7px 13px; border-radius: 7px; border: 1px solid rgba(59,130,246,.3); background: var(--card); color: var(--a2); font-size: 11.5px; font-weight: 700; cursor: pointer; font-family: 'Fira Code',monospace; transition: all .25s; }
+    .fcbtn:hover, .fcbtn.act { background: rgba(59,130,246,.18); border-color: var(--accent); color: #fff; }
+
+    /* ── COVER ── */
+    .cv { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .cvmain { font-size: clamp(38px,6vw,74px); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; }
+    .cvsub { font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.65; }
+    .cvtags { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+    .ctag { background: var(--card2); border: 1px solid rgba(255,255,255,.07); padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .cdot { width: 8px; height: 8px; border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── WARNA SWATCHES ── */
+    .cswatch { border-radius: 11px; overflow: hidden; border: 1px solid rgba(255,255,255,.07); flex: 1; min-width: 100px; max-width: 140px; }
+    .cprev { height: 52px; }
+    .cinfo { padding: 9px 11px; background: var(--card); font-size: 10.5px; }
+    .cinfo strong { display: block; font-size: 12.5px; margin-bottom: 2px; }
+    .cinfo span { color: var(--muted); font-family: 'Fira Code',monospace; font-size: 10px; }
+
+    /* ── HOMEWORK ── */
+    .hw { background: linear-gradient(135deg,rgba(59,130,246,.08),rgba(139,92,246,.06)); border: 1px solid rgba(59,130,246,.3); border-radius: 18px; padding: 24px 36px; max-width: 700px; width: 100%; }
+    .hw h3 { font-size: 17px; font-weight: 800; color: var(--a2); margin-bottom: 14px; display: flex; align-items: center; gap: 9px; }
+    .hwl { display: flex; flex-direction: column; gap: 9px; }
+    .hwl li { display: flex; align-items: flex-start; gap: 11px; font-size: 14px; list-style: none; }
+    .hwl li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .np { display: inline-flex; align-items: center; gap: 7px; padding: 9px 20px; border-radius: 50px; background: rgba(139,92,246,.1); border: 1px solid rgba(139,92,246,.35); font-size: 13px; font-weight: 700; color: #c084fc; margin-top: 11px; }
+  </style>
+</head>
+<body>
+
+<div id="pb"></div>
+
+<!-- HEADER -->
+<div class="hbar">
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="../index.html" class="hlink hl-home">🏠 Beranda</a>
+    <div class="logo"><div class="logo-ico">C</div><span class="logo-t">CSS</span>&nbsp;Dasar</div>
+  </div>
+  <div class="hbr">
+    <div class="dbadge">📅 HARI 2 / 3</div>
+    <div class="snum">Slide <strong id="cur">1</strong> / <strong id="tot">9</strong></div>
+    <a href="tugas.html"           class="hlink hl-green">📝 Tugas</a>
+    <a href="../hari-1/index.html" class="hlink hl-orange">← Hari 1</a>
+    <a href="../hari-3/index.html" class="hlink hl-purple">Hari 3 →</a>
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="slides">
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════ -->
+<div class="slide active" id="s0">
+  <div class="cv">
+    <div class="chip cb">🎨 Hari 2 dari 3 · CSS</div>
+    <h1 class="cvmain">Belajar <span class="gb">CSS</span> Dasar</h1>
+    <p class="cvsub">
+      Cascading Style Sheets — bahasa untuk mempercantik website.
+      Kuasai selector, box model, warna, tipografi, dan Flexbox layout hari ini!
+    </p>
+    <div class="cvtags">
+      <div class="ctag"><div class="cdot" style="background:#3b82f6"></div>Selector &amp; Properti</div>
+      <div class="ctag"><div class="cdot" style="background:#8b5cf6"></div>Box Model</div>
+      <div class="ctag"><div class="cdot" style="background:#06b6d4"></div>Flexbox Layout</div>
+    </div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:14px;padding:12px 28px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25);border-radius:50px">
+      <img src="../foto-alwin.jpg" alt="Alwin Dwi Kurniawan" style="width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid rgba(59,130,246,.5);flex-shrink:0">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:#e2e8f0">Alwin Dwi Kurniawan</div>
+        <div style="font-size:12px;color:#94a3b8">Web Development Instructor · Workshop HTML &amp; CSS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — APA ITU CSS
+══════════════════════════════════════ -->
+<div class="slide" id="s1">
+  <div class="chip cb">📖 Konsep</div>
+  <h2 class="stitle">Apa itu <span class="gb">CSS?</span></h2>
+  <div class="grid g3">
+    <div class="card"><div style="font-size:28px;margin-bottom:9px">🎨</div><h3>Tampilan Visual</h3><p>CSS mengontrol warna, font, ukuran, jarak, animasi — semua yang terlihat di mata Anda pada sebuah website.</p></div>
+    <div class="card"><div style="font-size:28px;margin-bottom:9px">📐</div><h3>Layout &amp; Posisi</h3><p>CSS menentukan di mana setiap elemen berada — kiri, kanan, tengah, kolom, baris — tanpa mengubah HTML.</p></div>
+    <div class="card"><div style="font-size:28px;margin-bottom:9px">⚡</div><h3>Efek &amp; Animasi</h3><p>Hover effects, transisi halus, animasi bergerak — semuanya bisa dilakukan CSS tanpa JavaScript.</p></div>
+  </div>
+  <pre class="code" style="max-width:900px;margin-top:18px"><span class="cm">/* Sintaks CSS: Selector { Properti: Nilai; } */</span>
+
+<span class="s">h1</span> {
+  <span class="p">color</span>:       <span class="v">#3b82f6</span>;
+  <span class="p">font-size</span>:   <span class="u">36px</span>;
+  <span class="p">font-weight</span>: <span class="u">800</span>;
+}
+
+<span class="s">.kartu</span> {
+  <span class="p">background</span>:    <span class="v">white</span>;
+  <span class="p">border-radius</span>: <span class="u">16px</span>;
+  <span class="p">padding</span>:       <span class="u">24px</span>;
+  <span class="p">box-shadow</span>:    <span class="v">0 4px 20px rgba(0,0,0,.1)</span>;
+}</pre>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — CARA MENULIS CSS
+══════════════════════════════════════ -->
+<div class="slide" id="s2">
+  <div class="chip cp">🔌 Cara Menulis</div>
+  <h2 class="stitle">3 Cara <span class="gp">Menulis CSS</span></h2>
+  <div class="grid g3">
+    <div class="card" style="border-color:rgba(34,197,94,.3)">
+      <h3 style="color:#4ade80;font-size:17px">✅ External CSS</h3>
+      <p style="margin-bottom:12px">File <code style="font-family:'Fira Code',monospace;color:#4ade80;font-size:12px">style.css</code> terpisah. Cara terbaik dan paling profesional — reusable di banyak halaman.</p>
+      <pre class="code" style="padding:20px 16px 12px;font-size:12.5px;border-color:rgba(34,197,94,.2)"><span class="cm">&lt;!-- Di dalam &lt;head&gt; --&gt;</span>
+<span class="t">&lt;link</span> <span class="p">rel=</span><span class="v">"stylesheet"</span>
+      <span class="p">href=</span><span class="v">"style.css"</span><span class="t">&gt;</span></pre>
+    </div>
+    <div class="card" style="border-color:rgba(245,158,11,.3)">
+      <h3 style="color:#fbbf24;font-size:17px">⚠️ Internal CSS</h3>
+      <p style="margin-bottom:12px">Di dalam tag <code style="font-family:'Fira Code',monospace;color:#fbbf24;font-size:12px">&lt;style&gt;</code> di bagian head. Cocok untuk satu halaman, tapi tidak reusable.</p>
+      <pre class="code" style="padding:20px 16px 12px;font-size:12.5px;border-color:rgba(245,158,11,.2)"><span class="t">&lt;style&gt;</span>
+  <span class="s">h1</span> { <span class="p">color</span>: <span class="v">blue</span>; }
+  <span class="s">p</span>  { <span class="p">font-size</span>: <span class="u">16px</span>; }
+<span class="t">&lt;/style&gt;</span></pre>
+    </div>
+    <div class="card" style="border-color:rgba(239,68,68,.3)">
+      <h3 style="color:#f87171;font-size:17px">❌ Inline CSS</h3>
+      <p style="margin-bottom:12px">Langsung di atribut style. Hindari! Sulit di-maintain dan tidak bisa direuse.</p>
+      <pre class="code" style="padding:20px 16px 12px;font-size:12.5px;border-color:rgba(239,68,68,.2)"><span class="t">&lt;p</span> <span class="p">style=</span><span class="v">"color: red;
+       font-size: 16px;
+       font-weight: bold"</span><span class="t">&gt;</span>
+  <span class="cm">&lt;!-- Hindari cara ini! --&gt;</span>
+<span class="t">&lt;/p&gt;</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — SELECTOR
+══════════════════════════════════════ -->
+<div class="slide" id="s3">
+  <div class="chip cp">🎯 Selector</div>
+  <h2 class="stitle">Jenis <span class="gp">Selector CSS</span></h2>
+  <table class="stbl">
+    <thead><tr><th>Selector</th><th>Contoh</th><th>Artinya</th></tr></thead>
+    <tbody>
+      <tr><td>Element</td><td>p { color: red; }</td><td>Semua elemen &lt;p&gt; dalam halaman</td></tr>
+      <tr><td>.class</td><td>.kartu { padding: 20px; }</td><td>Semua elemen dengan class="kartu"</td></tr>
+      <tr><td>#id</td><td>#header { background: blue; }</td><td>Elemen dengan id="header" (harus unik!)</td></tr>
+      <tr><td>*</td><td>* { box-sizing: border-box; }</td><td>Semua elemen di halaman (universal)</td></tr>
+      <tr><td>A B</td><td>div p { font-size: 14px; }</td><td>&lt;p&gt; yang berada di dalam &lt;div&gt;</td></tr>
+      <tr><td>A, B</td><td>h1, h2 { font-weight: bold; }</td><td>Semua h1 DAN semua h2</td></tr>
+      <tr><td>A:hover</td><td>button:hover { opacity: .8; }</td><td>Saat mouse berada di atas elemen</td></tr>
+      <tr><td>A:first-child</td><td>li:first-child { color: red; }</td><td>Elemen li pertama dalam container-nya</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — BOX MODEL
+══════════════════════════════════════ -->
+<div class="slide" id="s4">
+  <div class="chip cc">📦 Box Model</div>
+  <h2 class="stitle">Memahami <span class="gg">CSS Box Model</span></h2>
+  <div style="display:flex;gap:48px;align-items:center;width:100%;max-width:920px;justify-content:center">
+    <div style="display:flex;align-items:center;justify-content:center">
+      <div class="bm-margin"><div class="bml">margin</div>
+        <div class="bm-border"><div class="bml">border</div>
+          <div class="bm-padding"><div class="bml">padding</div>
+            <div class="bm-content">content</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:11px">
+      <div class="card" style="border-color:rgba(59,130,246,.35);padding:14px 18px">
+        <div style="font-family:'Fira Code',monospace;font-size:12.5px;color:var(--a2);margin-bottom:5px">width: 300px; height: 200px;</div>
+        <p style="font-size:13px"><strong>Content</strong> — area konten utama. width/height mengatur ini.</p>
+      </div>
+      <div class="card" style="border-color:rgba(34,197,94,.35);padding:14px 18px">
+        <div style="font-family:'Fira Code',monospace;font-size:12.5px;color:#4ade80;margin-bottom:5px">padding: 20px 16px;</div>
+        <p style="font-size:13px"><strong>Padding</strong> — ruang di dalam border. Tidak memisahkan dari elemen lain.</p>
+      </div>
+      <div class="card" style="border-color:rgba(239,68,68,.35);padding:14px 18px">
+        <div style="font-family:'Fira Code',monospace;font-size:12.5px;color:#f87171;margin-bottom:5px">border: 2px solid #3b82f6;</div>
+        <p style="font-size:13px"><strong>Border</strong> — garis tepi. Bisa solid, dashed, dotted, double, dll.</p>
+      </div>
+      <div class="card" style="border-color:rgba(245,158,11,.35);padding:14px 18px">
+        <div style="font-family:'Fira Code',monospace;font-size:12.5px;color:#f59e0b;margin-bottom:5px">margin: 24px auto;</div>
+        <p style="font-size:13px"><strong>Margin</strong> — jarak ke elemen lain. <code style="font-size:12px">auto</code> = pusatkan horizontal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — WARNA & TIPOGRAFI
+══════════════════════════════════════ -->
+<div class="slide" id="s5">
+  <div class="chip cb">🎨 Warna &amp; Font</div>
+  <h2 class="stitle">Warna &amp; <span class="gb">Tipografi CSS</span></h2>
+  <div style="display:flex;gap:24px;width:100%;max-width:920px;align-items:flex-start">
+    <div style="flex:1">
+      <p style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Format Warna CSS</p>
+      <pre class="code" style="font-size:13px"><span class="p">color</span>: <span class="v">red</span>;                       <span class="cm">/* nama warna */</span>
+<span class="p">color</span>: <span class="v">#3b82f6</span>;                  <span class="cm">/* HEX (paling umum) */</span>
+<span class="p">color</span>: <span class="v">rgb(59, 130, 246)</span>;        <span class="cm">/* RGB */</span>
+<span class="p">color</span>: <span class="v">rgba(59, 130, 246, 0.5)</span>; <span class="cm">/* + opacity */</span>
+<span class="p">color</span>: <span class="v">hsl(217, 91%, 60%)</span>;      <span class="cm">/* HSL */</span>
+<span class="p">background</span>: <span class="v">linear-gradient(90deg, #3b82f6, #8b5cf6)</span>;</pre>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <div class="cswatch"><div class="cprev" style="background:#3b82f6"></div><div class="cinfo"><strong>Blue</strong><span>#3b82f6</span></div></div>
+        <div class="cswatch"><div class="cprev" style="background:#8b5cf6"></div><div class="cinfo"><strong>Purple</strong><span>#8b5cf6</span></div></div>
+        <div class="cswatch"><div class="cprev" style="background:#22c55e"></div><div class="cinfo"><strong>Green</strong><span>#22c55e</span></div></div>
+        <div class="cswatch"><div class="cprev" style="background:#f59e0b"></div><div class="cinfo"><strong>Amber</strong><span>#f59e0b</span></div></div>
+        <div class="cswatch"><div class="cprev" style="background:#ef4444"></div><div class="cinfo"><strong>Red</strong><span>#ef4444</span></div></div>
+      </div>
+    </div>
+    <div style="flex:1">
+      <p style="font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Tipografi CSS</p>
+      <pre class="code" style="font-size:13px"><span class="s">body</span> {
+  <span class="p">font-family</span>:    <span class="v">'Inter', Arial, sans-serif</span>;
+  <span class="p">font-size</span>:      <span class="u">16px</span>;
+  <span class="p">font-weight</span>:    <span class="u">400</span>;   <span class="cm">/* 100 – 900 */</span>
+  <span class="p">line-height</span>:    <span class="u">1.7</span>;
+  <span class="p">letter-spacing</span>: <span class="u">0.02em</span>;
+  <span class="p">color</span>:          <span class="v">#1e293b</span>;
+}
+
+<span class="s">h1</span> {
+  <span class="p">font-size</span>:   <span class="u">48px</span>;
+  <span class="p">font-weight</span>: <span class="u">800</span>;
+  <span class="p">text-align</span>: <span class="v">center</span>;
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — FLEXBOX
+══════════════════════════════════════ -->
+<div class="slide" id="s6">
+  <div class="chip cc">📏 Flexbox</div>
+  <h2 class="stitle">Layout dengan <span class="gg">Flexbox</span></h2>
+  <div style="display:flex;gap:24px;width:100%;max-width:920px;align-items:flex-start">
+    <div style="flex:1;display:flex;flex-direction:column;gap:11px">
+      <pre class="code" style="font-size:13px"><span class="s">.container</span> {
+  <span class="p">display</span>:         <span class="v">flex</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">align-items</span>:     <span class="v">center</span>;
+  <span class="p">gap</span>:             <span class="u">16px</span>;
+  <span class="p">flex-wrap</span>:       <span class="v">wrap</span>;
+}
+
+<span class="s">.item</span> {
+  <span class="p">flex</span>:      <span class="u">1</span>;
+  <span class="p">min-width</span>: <span class="u">200px</span>;
+}</pre>
+      <div class="card" style="padding:12px 16px"><code style="font-family:'Fira Code',monospace;font-size:12px;color:#22d3ee">justify-content:</code><p style="font-size:12px;color:var(--muted);margin-top:4px">flex-start | center | flex-end | space-between | space-around | space-evenly</p></div>
+      <div class="card" style="padding:12px 16px"><code style="font-family:'Fira Code',monospace;font-size:12px;color:#22d3ee">align-items:</code><p style="font-size:12px;color:var(--muted);margin-top:4px">stretch | flex-start | center | flex-end | baseline</p></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:12px;align-items:center">
+      <p style="font-size:12px;color:var(--muted);font-weight:600">Demo Interaktif — Klik tombol:</p>
+      <div class="fd" id="flexDemo">
+        <div class="fi">Item 1</div><div class="fi">Item 2</div><div class="fi">Item 3</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+        <button class="fcbtn act" onclick="sf('flex-start',this)">flex-start</button>
+        <button class="fcbtn"     onclick="sf('center',this)">center</button>
+        <button class="fcbtn"     onclick="sf('flex-end',this)">flex-end</button>
+        <button class="fcbtn"     onclick="sf('space-between',this)">space-between</button>
+        <button class="fcbtn"     onclick="sf('space-around',this)">space-around</button>
+      </div>
+      <pre class="code" id="fcode" style="font-size:12.5px;padding:22px 18px 12px;max-width:380px"><span class="p">justify-content</span>: <span class="v">flex-start</span>;</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — SPECIFICITY
+══════════════════════════════════════ -->
+<div class="slide" id="s7">
+  <div class="chip cp">⚖️ Specificity</div>
+  <h2 class="stitle">CSS <span class="gp">Specificity &amp; Cascade</span></h2>
+  <p style="color:var(--muted);font-size:14.5px;margin-bottom:18px;text-align:center">Saat ada konflik aturan CSS — siapa yang menang? Skor tertinggi yang berlaku!</p>
+  <div style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:780px">
+    <div class="sprow"><div class="spcode">* { }</div><div class="spbar"><div class="spbar-i" style="width:5%"></div></div><div class="spscore">0 poin</div><div style="font-size:13px;color:var(--muted)">Universal — paling lemah</div></div>
+    <div class="sprow"><div class="spcode">p, div { }</div><div class="spbar"><div class="spbar-i" style="width:12%"></div></div><div class="spscore">1 poin</div><div style="font-size:13px;color:var(--muted)">Element selector</div></div>
+    <div class="sprow"><div class="spcode">.kelas { }</div><div class="spbar"><div class="spbar-i" style="width:38%"></div></div><div class="spscore">10 poin</div><div style="font-size:13px;color:var(--muted)">Class / attribute / pseudo-class</div></div>
+    <div class="sprow"><div class="spcode">#id { }</div><div class="spbar"><div class="spbar-i" style="width:73%"></div></div><div class="spscore">100 poin</div><div style="font-size:13px;color:var(--muted)">ID selector</div></div>
+    <div class="sprow"><div class="spcode">style="…"</div><div class="spbar"><div class="spbar-i" style="width:90%"></div></div><div class="spscore">1000 poin</div><div style="font-size:13px;color:var(--muted)">Inline style</div></div>
+    <div class="sprow" style="border-color:rgba(239,68,68,.3)"><div class="spcode" style="color:#f87171">!important</div><div class="spbar"><div class="spbar-i" style="width:100%;background:linear-gradient(90deg,#ef4444,#f97316)"></div></div><div class="spscore" style="color:#f87171">∞</div><div style="font-size:13px;color:#f87171">Paksa menang — HINDARI!</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 9 — PENUTUP
+══════════════════════════════════════ -->
+<div class="slide" id="s8">
+  <div class="chip cb">🏁 Selesai Hari 2!</div>
+  <h2 class="stitle">Ringkasan &amp; <span class="gb">Tugas Hari Ini</span></h2>
+  <p style="color:var(--muted);font-size:15px;margin-bottom:20px;text-align:center">Tambahkan CSS ke halaman profil HTML yang Anda buat kemarin!</p>
+  <div class="hw">
+    <h3>📝 Tugas Mandiri — Klik "Tugas" di atas</h3>
+    <ul class="hwl">
+      <li>Buat file <strong>style.css</strong> dan hubungkan ke index.html dengan &lt;link&gt;</li>
+      <li>Gunakan Google Fonts untuk tipografi (Inter, Poppins, atau Plus Jakarta Sans)</li>
+      <li>Terapkan box model: padding, margin, border pada setiap section</li>
+      <li>Buat navbar horizontal dengan Flexbox + efek hover</li>
+      <li>Styling card keahlian menggunakan class CSS yang reusable</li>
+    </ul>
+  </div>
+  <div class="np">📅 Besok – Hari 3: CSS Grid, Animasi &amp; Responsive Design →</div>
+</div>
+
+</div><!-- /slides -->
+
+<div class="navb">
+  <button class="nb" id="pb2" onclick="go(-1)">‹</button>
+  <button class="nb" id="nb2" onclick="go(1)">›</button>
+</div>
+<div class="kh"><kbd>←</kbd><kbd>→</kbd> navigasi · <kbd>Space</kbd> lanjut</div>
+
+<script>
+  const N  = 9;
+  const sl = document.querySelectorAll('.slide');
+  let   c  = 0;
+
+  const pbar = document.getElementById('pb');
+  const cur  = document.getElementById('cur');
+  const de   = document.getElementById('dots');
+
+  // Buat dot navigator
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.onclick = () => gt(i);
+    de.appendChild(d);
+  }
+
+  function gt(n) {
+    sl[c].classList.remove('active');
+    de.children[c].classList.remove('on');
+    c = Math.max(0, Math.min(n, N - 1));
+    sl[c].classList.add('active');
+    de.children[c].classList.add('on');
+    cur.textContent = c + 1;
+    pbar.style.width = ((c + 1) / N * 100) + '%';
+    document.getElementById('pb2').disabled = c === 0;
+    document.getElementById('nb2').disabled = c === N - 1;
+  }
+
+  function go(d) { gt(c + d); }
+
+  // Demo Flexbox interaktif
+  function sf(val, btn) {
+    document.getElementById('flexDemo').style.justifyContent = val;
+    document.getElementById('fcode').innerHTML =
+      `<span class="p">justify-content</span>: <span class="v">${val}</span>;`;
+    document.querySelectorAll('.fcbtn').forEach(b => b.classList.remove('act'));
+    btn.classList.add('act');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+
+  document.getElementById('tot').textContent = N;
+  gt(0);
+</script>
+</body>
+</html>

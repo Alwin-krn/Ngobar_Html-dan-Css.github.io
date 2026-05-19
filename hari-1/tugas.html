@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tugas Hari 1 – HTML | Alwin Dwi Kurniawan</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080c16;--card:#111e2e;--card2:#162338;--accent:#f97316;--a2:#fb923c;--green:#22c55e;--blue:#3b82f6;--red:#ef4444;--purple:#8b5cf6;--text:#e2e8f0;--muted:#94a3b8;--border:rgba(249,115,22,.18)}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* TOPBAR */
+.topbar{background:rgba(8,12,22,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:13px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.tlogo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:14px}
+.tlogo-i{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#f97316,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:18px}
+.tlogo span{color:var(--a2)}
+.tright{display:flex;align-items:center;gap:12px}
+.back-btn{display:flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:var(--a2);font-size:12px;font-weight:700;text-decoration:none;transition:all .25s}
+.back-btn:hover{background:rgba(249,115,22,.2)}
+/* PRESENTER BANNER */
+.presenter-bar{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(245,158,11,.08));border-bottom:1px solid rgba(249,115,22,.2);padding:10px 48px;display:flex;align-items:center;gap:14px}
+.pres-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
+.pres-info strong{display:block;font-size:14px;font-weight:800;color:var(--text)}
+.pres-info span{font-size:12px;color:var(--muted)}
+.pres-badge{margin-left:auto;padding:5px 14px;border-radius:50px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);font-size:11px;font-weight:700;color:var(--a2);letter-spacing:.07em}
+/* HERO */
+.hero{padding:48px 48px 32px;max-width:1100px;margin:0 auto}
+.hero-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 16px;border-radius:50px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.35);font-size:12px;font-weight:700;color:var(--a2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-size:clamp(28px,4vw,50px);font-weight:800;line-height:1.1;margin-bottom:12px}
+.hero h1 span{background:linear-gradient(90deg,#f97316,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:15px;color:var(--muted);max-width:680px;line-height:1.7;margin-bottom:22px}
+.hero-stats{display:flex;gap:16px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.stat-ico{font-size:22px}
+.stat-info strong{display:block;font-size:17px;font-weight:800}
+.stat-info span{font-size:11px;color:var(--muted)}
+/* CONTENT */
+.content{max-width:1100px;margin:0 auto;padding:0 48px 60px;display:flex;flex-direction:column;gap:28px}
+.section{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:20px;overflow:hidden}
+.sec-head{padding:18px 26px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sec-head h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px}
+.lbadge{padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.easy{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.med{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.hard{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.sec-body{padding:22px 26px}
+/* TASK */
+.task-list{display:flex;flex-direction:column;gap:12px}
+.task{background:var(--card2);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;transition:all .3s}
+.task:hover{border-color:var(--accent);transform:translateX(3px)}
+.task-num{min-width:34px;height:34px;border-radius:50%;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.35);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--a2);flex-shrink:0}
+.task-body h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.task-body p{font-size:13px;color:var(--muted);line-height:1.6}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag-sm{padding:2px 9px;border-radius:5px;font-size:10.5px;font-weight:600;font-family:'Fira Code',monospace;background:rgba(249,115,22,.1);color:var(--a2);border:1px solid rgba(249,115,22,.2)}
+.tag-sm.bl{background:rgba(59,130,246,.1);color:#60a5fa;border-color:rgba(59,130,246,.2)}
+.tag-sm.gn{background:rgba(34,197,94,.1);color:#4ade80;border-color:rgba(34,197,94,.2)}
+/* CODE EXAMPLE BOX */
+.ex-box{margin-top:16px;border-radius:16px;overflow:hidden;border:1px solid rgba(249,115,22,.2)}
+.ex-head{padding:10px 18px;background:rgba(249,115,22,.1);border-bottom:1px solid rgba(249,115,22,.15);display:flex;align-items:center;justify-content:space-between}
+.ex-head .ex-title{font-size:12px;font-weight:700;color:var(--a2);display:flex;align-items:center;gap:7px}
+.ex-head .ex-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.ex-code{background:#060c18;padding:18px 22px;font-family:'Fira Code',monospace;font-size:12.5px;line-height:1.85;overflow-x:auto}
+.ex-preview{background:#fff;padding:20px 24px;border-top:1px solid rgba(249,115,22,.12)}
+.ex-preview-label{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+/* syntax colors */
+.t{color:#fb923c}.a{color:#60a5fa}.v{color:#4ade80}.cm{color:#3b4f60;font-style:italic}.tx{color:#e2e8f0}.u{color:#f59e0b}
+/* PREVIEW STYLES (light) */
+.p-header{background:linear-gradient(90deg,#1e3a5f,#2563eb);color:#fff;padding:14px 20px;border-radius:8px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.p-header h1{font-size:16px;font-weight:800}
+.p-nav a{color:rgba(255,255,255,.8);text-decoration:none;font-size:12px;font-weight:600;padding:5px 10px;border-radius:5px;transition:.2s}
+.p-nav a:hover{background:rgba(255,255,255,.2)}
+.p-nav{display:flex;gap:4px}
+.p-section{padding:12px 0;border-bottom:1px solid #e2e8f0}
+.p-section h2{font-size:14px;font-weight:700;color:#1e3a5f;margin-bottom:6px}
+.p-section p{font-size:12px;color:#64748b;line-height:1.6}
+.p-section ul{list-style:disc;padding-left:20px;font-size:12px;color:#64748b}
+.p-section ul li{margin-bottom:3px}
+.p-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.p-table th{background:#1e3a5f;color:#fff;padding:7px 10px;text-align:left;font-size:11px}
+.p-table td{padding:6px 10px;border-bottom:1px solid #e2e8f0;color:#475569}
+.p-table tr:hover td{background:#f1f5f9}
+.p-form{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.p-form label{font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:3px}
+.p-form input,.p-form textarea,.p-form select{width:100%;padding:8px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;outline:none;font-family:inherit}
+.p-form input:focus,.p-form textarea:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.p-form button{padding:9px 20px;background:#f97316;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer}
+.p-footer{background:#1e293b;color:#94a3b8;padding:12px 20px;border-radius:8px;margin-top:10px;font-size:12px;text-align:center}
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.ck{display:flex;align-items:flex-start;gap:11px;padding:11px 15px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:13.5px}
+.ck input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);flex-shrink:0;margin-top:2px;cursor:pointer}
+.ck label{cursor:pointer;line-height:1.5}
+/* TIPS */
+.tips{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.22);border-radius:13px;padding:16px 20px;margin-top:14px}
+.tips h4{font-size:13px;font-weight:700;color:#60a5fa;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.tips ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.tips ul li{font-size:13px;color:var(--muted);display:flex;gap:7px}
+.tips ul li::before{content:'💡';flex-shrink:0}
+/* FOOTER */
+.foot{background:var(--card);border-top:1px solid rgba(255,255,255,.06);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1100px;margin:0 auto}
+.foot-left{font-size:13px;color:var(--muted)}
+.foot-left strong{color:var(--text)}
+.foot-nav{display:flex;gap:10px;flex-wrap:wrap}
+.fn{padding:9px 20px;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;transition:all .25s}
+.fn:hover{opacity:.8;transform:translateY(-2px)}
+.fn-o{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:var(--a2)}
+.fn-b{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tlogo"><div class="tlogo-i">H</div><span>HTML</span>&nbsp;Workshop · Hari 1</div>
+  <div class="tright">
+    <a href="index.html" class="back-btn">← Presentasi</a>
+  </div>
+</div>
+
+<!-- PRESENTER BANNER -->
+<div class="presenter-bar">
+  <div class="pres-avatar">A</div>
+  <div class="pres-info">
+    <strong>Alwin Dwi Kurniawan</strong>
+    <span>Web Development Instructor · Workshop HTML & CSS 3 Hari</span>
+  </div>
+  <div class="pres-badge">📅 HARI 1 / 3</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-chip">📝 Lembar Tugas · Hari 1 – HTML</div>
+  <h1>Tugas Praktik <span>HTML</span><br>+ Contoh Kode Lengkap</h1>
+  <p>Selesaikan setiap tugas, pelajari contoh kode yang disediakan, lalu buat versi Anda sendiri. Kode contoh sudah lengkap dan bisa langsung dicoba di browser.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-ico">📋</div><div class="stat-info"><strong>5</strong><span>Tugas</span></div></div>
+    <div class="stat"><div class="stat-ico">💻</div><div class="stat-info"><strong>5</strong><span>Contoh Kode</span></div></div>
+    <div class="stat"><div class="stat-ico">⏱️</div><div class="stat-info"><strong>2–3 Jam</strong><span>Estimasi</span></div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════ TUGAS 1 ═══════════ -->
+<div class="section">
+  <div class="sec-head">
+    <h2>🏗️ Tugas 1 — Struktur Dasar HTML</h2>
+    <span class="lbadge easy">⭐ Mudah</span>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:4px">Buat file HTML pertama dari nol. Pelajari contoh di bawah, lalu buat versi Anda sendiri.</p>
+
+    <div class="ex-box">
+      <div class="ex-head">
+        <div class="ex-title">📄 Contoh Kode — index.html <span class="ex-badge">CONTOH LENGKAP</span></div>
+      </div>
+      <div class="ex-code">
+<span class="t">&lt;!DOCTYPE html&gt;</span><br>
+<span class="t">&lt;html</span> <span class="a">lang=</span><span class="v">"id"</span><span class="t">&gt;</span><br>
+<span class="t">&lt;head&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;meta</span> <span class="a">charset=</span><span class="v">"UTF-8"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;meta</span> <span class="a">name=</span><span class="v">"viewport"</span> <span class="a">content=</span><span class="v">"width=device-width, initial-scale=1.0"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;title&gt;</span><span class="tx">Budi Santoso – Web Developer</span><span class="t">&lt;/title&gt;</span><br>
+<span class="t">&lt;/head&gt;</span><br>
+<span class="t">&lt;body&gt;</span><br>
+<br>
+&nbsp;&nbsp;<span class="t">&lt;header&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;h1&gt;</span><span class="tx">Halo! Saya Budi Santoso</span><span class="t">&lt;/h1&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;p&gt;</span><span class="tx">Web Developer · Jakarta, Indonesia</span><span class="t">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;nav&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#tentang"</span><span class="t">&gt;</span><span class="tx">Tentang</span><span class="t">&lt;/a&gt;</span> |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#keahlian"</span><span class="t">&gt;</span><span class="tx">Keahlian</span><span class="t">&lt;/a&gt;</span> |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#kontak"</span><span class="t">&gt;</span><span class="tx">Kontak</span><span class="t">&lt;/a&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/nav&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/header&gt;</span><br>
+<br>
+&nbsp;&nbsp;<span class="t">&lt;main&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;section</span> <span class="a">id=</span><span class="v">"tentang"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;h2&gt;</span><span class="tx">Tentang Saya</span><span class="t">&lt;/h2&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"foto.jpg"</span> <span class="a">alt=</span><span class="v">"Foto Budi Santoso"</span> <span class="a">width=</span><span class="v">"150"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;p&gt;</span><span class="tx">Saya seorang web developer dengan pengalaman 3 tahun</span><span class="t">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;p&gt;</span><span class="tx">Saya menyukai desain UI/UX dan coding frontend.</span><span class="t">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/section&gt;</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;section</span> <span class="a">id=</span><span class="v">"keahlian"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;h2&gt;</span><span class="tx">Keahlian Saya</span><span class="t">&lt;/h2&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;ul&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;</span><span class="tx">HTML5 – Struktur web</span><span class="t">&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;</span><span class="tx">CSS3 – Tampilan web</span><span class="t">&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;</span><span class="tx">JavaScript – Interaktivitas</span><span class="t">&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;</span><span class="tx">Git – Version control</span><span class="t">&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/ul&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/section&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/main&gt;</span><br>
+<br>
+&nbsp;&nbsp;<span class="t">&lt;footer&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;p&gt;</span><span class="tx">&amp;copy; 2025 Budi Santoso. Dibuat dengan ❤️</span><span class="t">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/footer&gt;</span><br>
+<br>
+<span class="t">&lt;/body&gt;</span><br>
+<span class="t">&lt;/html&gt;</span>
+      </div>
+      <div class="ex-preview">
+        <div class="ex-preview-label">🖥️ Hasil di Browser</div>
+        <div class="p-header">
+          <div>
+            <h1>Halo! Saya Budi Santoso</h1>
+            <p style="font-size:11px;opacity:.8;margin-top:2px">Web Developer · Jakarta, Indonesia</p>
+          </div>
+          <nav class="p-nav">
+            <a href="#">Tentang</a><a href="#">Keahlian</a><a href="#">Kontak</a>
+          </nav>
+        </div>
+        <div class="p-section">
+          <h2>Tentang Saya</h2>
+          <p>Saya seorang web developer dengan pengalaman 3 tahun. Saya menyukai desain UI/UX dan coding frontend.</p>
+        </div>
+        <div class="p-section">
+          <h2>Keahlian Saya</h2>
+          <ul><li>HTML5 – Struktur web</li><li>CSS3 – Tampilan web</li><li>JavaScript – Interaktivitas</li><li>Git – Version control</li></ul>
+        </div>
+        <div class="p-footer">© 2025 Budi Santoso. Dibuat dengan ❤️</div>
+      </div>
+    </div>
+
+    <div class="tips">
+      <h4>📌 Yang Harus Anda Ganti</h4>
+      <ul>
+        <li>Ganti "Budi Santoso" → nama Anda sendiri</li>
+        <li>Tambahkan minimal 6 keahlian di dalam &lt;ul&gt;</li>
+        <li>Tambahkan section &lt;section id="kontak"&gt; di bawah keahlian</li>
+        <li>src="foto.jpg" → pakai foto Anda atau https://placehold.co/150</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TUGAS 2 ═══════════ -->
+<div class="section">
+  <div class="sec-head">
+    <h2>📋 Tugas 2 — Form Kontak HTML</h2>
+    <span class="lbadge easy">⭐ Mudah</span>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:4px">Buat halaman kontak.html dengan form lengkap. Pelajari contoh berikut.</p>
+
+    <div class="ex-box">
+      <div class="ex-head">
+        <div class="ex-title">📄 Contoh Kode — kontak.html <span class="ex-badge">CONTOH LENGKAP</span></div>
+      </div>
+      <div class="ex-code">
+<span class="t">&lt;!DOCTYPE html&gt;</span><br>
+<span class="t">&lt;html</span> <span class="a">lang=</span><span class="v">"id"</span><span class="t">&gt;</span><br>
+<span class="t">&lt;head&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;meta</span> <span class="a">charset=</span><span class="v">"UTF-8"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;title&gt;</span><span class="tx">Kontak Saya</span><span class="t">&lt;/title&gt;</span><br>
+<span class="t">&lt;/head&gt;</span><br>
+<span class="t">&lt;body&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;h1&gt;</span><span class="tx">Hubungi Saya</span><span class="t">&lt;/h1&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;form</span> <span class="a">action=</span><span class="v">"#"</span> <span class="a">method=</span><span class="v">"POST"</span><span class="t">&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">&lt;!-- Nama lengkap (wajib diisi) --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"nama"</span><span class="t">&gt;</span><span class="tx">Nama Lengkap *</span><span class="t">&lt;/label&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"text"</span> <span class="a">id=</span><span class="v">"nama"</span> <span class="a">name=</span><span class="v">"nama"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="a">placeholder=</span><span class="v">"Masukkan nama lengkap"</span> <span class="a">required</span><span class="t">&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">&lt;!-- Email (validasi otomatis) --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"email"</span><span class="t">&gt;</span><span class="tx">Email *</span><span class="t">&lt;/label&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"email"</span> <span class="a">id=</span><span class="v">"email"</span> <span class="a">name=</span><span class="v">"email"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="a">placeholder=</span><span class="v">"nama@email.com"</span> <span class="a">required</span><span class="t">&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">&lt;!-- Nomor HP --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"hp"</span><span class="t">&gt;</span><span class="tx">Nomor HP</span><span class="t">&lt;/label&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"tel"</span> <span class="a">id=</span><span class="v">"hp"</span> <span class="a">name=</span><span class="v">"hp"</span> <span class="a">placeholder=</span><span class="v">"08xxxxxxxxxx"</span><span class="t">&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">&lt;!-- Subjek pilihan --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"subjek"</span><span class="t">&gt;</span><span class="tx">Subjek</span><span class="t">&lt;/label&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;select</span> <span class="a">id=</span><span class="v">"subjek"</span> <span class="a">name=</span><span class="v">"subjek"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;option</span> <span class="a">value=</span><span class="v">""</span><span class="t">&gt;</span><span class="tx">-- Pilih Subjek --</span><span class="t">&lt;/option&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;option</span> <span class="a">value=</span><span class="v">"proyek"</span><span class="t">&gt;</span><span class="tx">Kerja Sama Proyek</span><span class="t">&lt;/option&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;option</span> <span class="a">value=</span><span class="v">"konsultasi"</span><span class="t">&gt;</span><span class="tx">Konsultasi</span><span class="t">&lt;/option&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;option</span> <span class="a">value=</span><span class="v">"lainnya"</span><span class="t">&gt;</span><span class="tx">Lainnya</span><span class="t">&lt;/option&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/select&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">&lt;!-- Pesan (textarea) --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"pesan"</span><span class="t">&gt;</span><span class="tx">Pesan *</span><span class="t">&lt;/label&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;textarea</span> <span class="a">id=</span><span class="v">"pesan"</span> <span class="a">name=</span><span class="v">"pesan"</span> <span class="a">rows=</span><span class="v">"5"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="a">placeholder=</span><span class="v">"Tulis pesan Anda di sini..."</span> <span class="a">required</span><span class="t">&gt;&lt;/textarea&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">&lt;!-- Persetujuan --&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"checkbox"</span> <span class="a">id=</span><span class="v">"setuju"</span> <span class="a">name=</span><span class="v">"setuju"</span> <span class="a">required</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;label</span> <span class="a">for=</span><span class="v">"setuju"</span><span class="t">&gt;</span><span class="tx">Saya setuju dengan syarat &amp; ketentuan</span><span class="t">&lt;/label&gt;</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;button</span> <span class="a">type=</span><span class="v">"submit"</span><span class="t">&gt;</span><span class="tx">Kirim Pesan</span><span class="t">&lt;/button&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/form&gt;</span><br>
+<span class="t">&lt;/body&gt;</span><br>
+<span class="t">&lt;/html&gt;</span>
+      </div>
+      <div class="ex-preview">
+        <div class="ex-preview-label">🖥️ Hasil di Browser</div>
+        <div class="p-form">
+          <div><label>Nama Lengkap *</label><input type="text" placeholder="Masukkan nama lengkap"></div>
+          <div><label>Email *</label><input type="email" placeholder="nama@email.com"></div>
+          <div><label>Subjek</label><select><option>-- Pilih Subjek --</option><option>Kerja Sama Proyek</option><option>Konsultasi</option></select></div>
+          <div><label>Pesan *</label><textarea rows="3" placeholder="Tulis pesan Anda..."></textarea></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px"><input type="checkbox" style="width:15px;height:15px"><label>Saya setuju dengan syarat & ketentuan</label></div>
+          <button>Kirim Pesan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TUGAS 3 ═══════════ -->
+<div class="section">
+  <div class="sec-head">
+    <h2>📊 Tugas 3 — Tabel Riwayat</h2>
+    <span class="lbadge med">⭐⭐ Menengah</span>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:4px">Buat tabel riwayat pendidikan/pengalaman dengan thead, tbody, dan tfoot.</p>
+
+    <div class="ex-box">
+      <div class="ex-head">
+        <div class="ex-title">📄 Contoh Kode — Tabel HTML <span class="ex-badge">CONTOH LENGKAP</span></div>
+      </div>
+      <div class="ex-code">
+<span class="t">&lt;table</span> <span class="a">border=</span><span class="v">"1"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;caption&gt;</span><span class="tx">Riwayat Pendidikan Saya</span><span class="t">&lt;/caption&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;thead&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;th&gt;</span><span class="tx">No</span><span class="t">&lt;/th&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;th&gt;</span><span class="tx">Tahun</span><span class="t">&lt;/th&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;th&gt;</span><span class="tx">Institusi</span><span class="t">&lt;/th&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;th&gt;</span><span class="tx">Jurusan</span><span class="t">&lt;/th&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;th&gt;</span><span class="tx">Status</span><span class="t">&lt;/th&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/tr&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/thead&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;tbody&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">1</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">2016 – 2019</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">SMP Negeri 1 Jakarta</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">–</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">Lulus</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">2</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">2019 – 2022</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">SMK Negeri 2 Jakarta</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">Teknik Komputer</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">Lulus</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">3</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">2022 – Sekarang</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">Universitas Indonesia</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">Ilmu Komputer</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td&gt;</span><span class="tx">Aktif</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/tr&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/tbody&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;tfoot&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;tr&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;td</span> <span class="a">colspan=</span><span class="v">"5"</span><span class="t">&gt;</span><span class="tx">Total: 3 riwayat pendidikan</span><span class="t">&lt;/td&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/tr&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/tfoot&gt;</span><br>
+<span class="t">&lt;/table&gt;</span>
+      </div>
+      <div class="ex-preview">
+        <div class="ex-preview-label">🖥️ Hasil di Browser</div>
+        <table class="p-table">
+          <thead><tr><th>No</th><th>Tahun</th><th>Institusi</th><th>Jurusan</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>2016–2019</td><td>SMP Negeri 1 Jakarta</td><td>–</td><td>Lulus</td></tr>
+            <tr><td>2</td><td>2019–2022</td><td>SMK Negeri 2 Jakarta</td><td>Teknik Komputer</td><td>Lulus</td></tr>
+            <tr><td>3</td><td>2022–Skrg</td><td>Universitas Indonesia</td><td>Ilmu Komputer</td><td>Aktif</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="5" style="background:#f1f5f9;font-weight:700;font-size:11px;padding:6px 10px;color:#475569">Total: 3 riwayat pendidikan</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TUGAS 4 ═══════════ -->
+<div class="section">
+  <div class="sec-head">
+    <h2>🔗 Tugas 4 — Link & Gambar</h2>
+    <span class="lbadge med">⭐⭐ Menengah</span>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:4px">Kuasai cara menggunakan tag &lt;a&gt; dan &lt;img&gt; dengan benar.</p>
+
+    <div class="ex-box">
+      <div class="ex-head">
+        <div class="ex-title">📄 Contoh Kode — Link & Gambar <span class="ex-badge">CONTOH LENGKAP</span></div>
+      </div>
+      <div class="ex-code">
+<span class="cm">&lt;!-- LINK INTERNAL (ke halaman lain) --&gt;</span><br>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"kontak.html"</span><span class="t">&gt;</span><span class="tx">Pergi ke Kontak</span><span class="t">&lt;/a&gt;</span><br><br>
+<span class="cm">&lt;!-- LINK EKSTERNAL (buka tab baru) --&gt;</span><br>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"https://github.com"</span> <span class="a">target=</span><span class="v">"_blank"</span> <span class="a">rel=</span><span class="v">"noopener"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;<span class="tx">GitHub Saya</span><br>
+<span class="t">&lt;/a&gt;</span><br><br>
+<span class="cm">&lt;!-- LINK ANCHOR (lompat ke section) --&gt;</span><br>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"#tentang"</span><span class="t">&gt;</span><span class="tx">Gulir ke Tentang</span><span class="t">&lt;/a&gt;</span><br><br>
+<span class="cm">&lt;!-- LINK EMAIL --&gt;</span><br>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"mailto:budi@email.com"</span><span class="t">&gt;</span><span class="tx">Kirim Email</span><span class="t">&lt;/a&gt;</span><br><br>
+<span class="cm">&lt;!-- GAMBAR BIASA --&gt;</span><br>
+<span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"foto.jpg"</span> <span class="a">alt=</span><span class="v">"Foto Profil Budi"</span> <span class="a">width=</span><span class="v">"200"</span> <span class="a">height=</span><span class="v">"200"</span><span class="t">&gt;</span><br><br>
+<span class="cm">&lt;!-- GAMBAR DENGAN PLACEHOLDER --&gt;</span><br>
+<span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"https://placehold.co/200x200/3b82f6/fff?text=Foto"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="a">alt=</span><span class="v">"Foto placeholder"</span> <span class="a">width=</span><span class="v">"200"</span><span class="t">&gt;</span><br><br>
+<span class="cm">&lt;!-- GAMBAR DENGAN LINK (klik gambar = buka link) --&gt;</span><br>
+<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"https://github.com"</span> <span class="a">target=</span><span class="v">"_blank"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"github-logo.png"</span> <span class="a">alt=</span><span class="v">"GitHub"</span> <span class="a">width=</span><span class="v">"40"</span><span class="t">&gt;</span><br>
+<span class="t">&lt;/a&gt;</span>
+      </div>
+      <div class="ex-preview">
+        <div class="ex-preview-label">🖥️ Hasil di Browser</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+          <div><a href="#" style="color:#3b82f6;font-size:13px">Pergi ke Kontak</a> &nbsp;·&nbsp; <a href="#" target="_blank" style="color:#3b82f6;font-size:13px">GitHub Saya ↗</a> &nbsp;·&nbsp; <a href="#" style="color:#3b82f6;font-size:13px">Gulir ke Tentang</a></div>
+          <div><a href="mailto:budi@email.com" style="color:#3b82f6;font-size:13px">kirim email ke budi@email.com</a></div>
+          <div style="display:flex;gap:12px;align-items:center;margin-top:6px">
+            <img src="https://placehold.co/80x80/3b82f6/fff?text=Foto" alt="Foto" style="border-radius:8px;width:80px;height:80px">
+            <img src="https://placehold.co/80x80/8b5cf6/fff?text=IMG" alt="Gambar" style="border-radius:8px;width:80px;height:80px">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TUGAS 5 ═══════════ -->
+<div class="section">
+  <div class="sec-head">
+    <h2>🚀 Tugas 5 — Halaman Blog (Tantangan)</h2>
+    <span class="lbadge hard">⭐⭐⭐ Tantangan</span>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:4px">Buat blog.html yang menampilkan 3 artikel menggunakan tag semantic HTML5.</p>
+
+    <div class="ex-box">
+      <div class="ex-head">
+        <div class="ex-title">📄 Contoh Kode — blog.html <span class="ex-badge">CONTOH LENGKAP</span></div>
+      </div>
+      <div class="ex-code">
+<span class="t">&lt;main&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;h1&gt;</span><span class="tx">Blog Budi Santoso</span><span class="t">&lt;/h1&gt;</span><br><br>
+&nbsp;&nbsp;<span class="cm">&lt;!-- Artikel 1 --&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;article&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;figure&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;img</span> <span class="a">src=</span><span class="v">"https://placehold.co/600x300"</span> <span class="a">alt=</span><span class="v">"Artikel 1"</span><span class="t">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;figcaption&gt;</span><span class="tx">Ilustrasi belajar HTML</span><span class="t">&lt;/figcaption&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/figure&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;h2&gt;</span><span class="tx">Kenapa HTML Itu Penting?</span><span class="t">&lt;/h2&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;p&gt;</span><span class="tx">Ditulis oleh </span><span class="t">&lt;strong&gt;</span><span class="tx">Budi Santoso</span><span class="t">&lt;/strong&gt;</span><span class="tx"> pada </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;time</span> <span class="a">datetime=</span><span class="v">"2025-01-15"</span><span class="t">&gt;</span><span class="tx">15 Januari 2025</span><span class="t">&lt;/time&gt;</span><span class="t">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;p&gt;</span><span class="tx">HTML adalah pondasi dari semua website...</span><span class="t">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;a</span> <span class="a">href=</span><span class="v">"artikel1.html"</span><span class="t">&gt;</span><span class="tx">Baca Selengkapnya →</span><span class="t">&lt;/a&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/article&gt;</span><br><br>
+&nbsp;&nbsp;<span class="t">&lt;aside&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;h3&gt;</span><span class="tx">Kategori</span><span class="t">&lt;/h3&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;ul&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;&lt;a</span> <span class="a">href=</span><span class="v">"#"</span><span class="t">&gt;</span><span class="tx">HTML (3)</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;&lt;a</span> <span class="a">href=</span><span class="v">"#"</span><span class="t">&gt;</span><span class="tx">CSS (5)</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;li&gt;&lt;a</span> <span class="a">href=</span><span class="v">"#"</span><span class="t">&gt;</span><span class="tx">JavaScript (8)</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="t">&lt;/ul&gt;</span><br>
+&nbsp;&nbsp;<span class="t">&lt;/aside&gt;</span><br>
+<span class="t">&lt;/main&gt;</span>
+      </div>
+      <div class="ex-preview">
+        <div class="ex-preview-label">🖥️ Hasil di Browser</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="flex:2;min-width:200px">
+            <img src="https://placehold.co/400x140/3b82f6/fff?text=Gambar+Artikel" alt="Artikel" style="width:100%;border-radius:8px;margin-bottom:8px">
+            <h3 style="font-size:14px;font-weight:700;color:#1e3a5f;margin-bottom:6px">Kenapa HTML Itu Penting?</h3>
+            <p style="font-size:12px;color:#94a3b8;margin-bottom:6px">Oleh <strong style="color:#475569">Budi Santoso</strong> · 15 Januari 2025</p>
+            <p style="font-size:12px;color:#64748b;margin-bottom:8px">HTML adalah pondasi dari semua website yang ada di internet...</p>
+            <a href="#" style="font-size:12px;color:#3b82f6;font-weight:700">Baca Selengkapnya →</a>
+          </div>
+          <div style="flex:1;min-width:120px;border-left:1px solid #e2e8f0;padding-left:14px">
+            <h4 style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px">Kategori</h4>
+            <ul style="list-style:none;font-size:12px;display:flex;flex-direction:column;gap:5px">
+              <li><a href="#" style="color:#3b82f6">HTML (3)</a></li>
+              <li><a href="#" style="color:#3b82f6">CSS (5)</a></li>
+              <li><a href="#" style="color:#3b82f6">JavaScript (8)</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="section">
+  <div class="sec-head"><h2>✅ Checklist Pengumpulan</h2></div>
+  <div class="sec-body">
+    <div class="checklist">
+      <div class="ck"><input type="checkbox" id="c1"><label for="c1">File <strong>index.html</strong> berjalan tanpa error di browser</label></div>
+      <div class="ck"><input type="checkbox" id="c2"><label for="c2">Menggunakan tag semantic: header, nav, main, section, footer</label></div>
+      <div class="ck"><input type="checkbox" id="c3"><label for="c3">Semua gambar punya atribut <strong>alt</strong> yang deskriptif</label></div>
+      <div class="ck"><input type="checkbox" id="c4"><label for="c4">File <strong>kontak.html</strong> — form lengkap dengan validasi HTML5</label></div>
+      <div class="ck"><input type="checkbox" id="c5"><label for="c5">Tabel riwayat menggunakan thead, tbody, tfoot</label></div>
+      <div class="ck"><input type="checkbox" id="c6"><label for="c6">File <strong>blog.html</strong> menggunakan article, figure, figcaption, time, aside</label></div>
+      <div class="ck"><input type="checkbox" id="c7"><label for="c7">Tidak ada tag yang lupa ditutup (cek di validator.w3.org)</label></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<div class="foot" style="max-width:1100px;margin:0 auto;padding:22px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid rgba(255,255,255,.06)">
+  <div style="font-size:13px;color:var(--muted)">📅 Hari 1 / 3 &nbsp;·&nbsp; Pemateri: <strong style="color:var(--text)">Alwin Dwi Kurniawan</strong></div>
+  <div style="display:flex;gap:10px">
+    <a href="index.html" class="fn fn-o">🖥️ Presentasi</a>
+    <a href="../hari-2/index.html" class="fn fn-b">Hari 2: CSS Dasar →</a>
+  </div>
+</div>
+</body>
+</html>
